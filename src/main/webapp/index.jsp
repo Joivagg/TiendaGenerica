@@ -11,11 +11,11 @@
 <body>
 	<%
 	Conexion con= new Conexion();
-		con.conexiondb();
+	con.conexiondb();
 	%>
 	<header class="contenido">
-		<legend>BIENVENIDOS A LA TIENDA GENERICA</legend>
         <fieldset>
+			<legend>BIENVENIDOS A LA TIENDA GENERICA</legend>
             <form action="Login" method="get">
                 <label for="">Usuario: 
                     <input type="text" name="user">

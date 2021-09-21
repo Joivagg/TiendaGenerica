@@ -11,7 +11,7 @@
 <body>
 	<%
 	Conexion con= new Conexion();
-		con.conexiondb();
+	con.conexiondb();
 	%>
 	<header class="cont-header" id="cont-header">
     	<div class="logo-titulo" id="logo-titulo">
@@ -20,8 +20,8 @@
         </div>
         <nav class="nav">
             <ul>
-                <li><a href="Usuarios.html">Usuarios</a></li>
-                <li><a href="tabla.html">Clientes</a></li>
+                <li><a href="menu.jsp">Usuarios</a></li>
+                <li><a href="clientes.jsp">Clientes</a></li>
                 <li><a href="#">Provedores</a></li>
                 <li><a href="#">Productos</a></li>
                 <li><a href="#">Ventas</a></li>

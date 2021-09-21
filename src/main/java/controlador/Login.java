@@ -33,9 +33,7 @@ public class Login extends HttpServlet {
 			String u,c;
 			u=request.getParameter("user");
 			c= request.getParameter("pass");
-			if (u.equals("admininicial") && c.equals("admin123456"))	{
-				System.out.println(c);
-				JOptionPane.showMessageDialog(null, "datos correctos");
+			if (u.equals("admininicial") && c.equals("admin123456")) {
 				response.sendRedirect("menu.jsp");	
 			} else {
 				JOptionPane.showMessageDialog(null, "datos incorrectos");
