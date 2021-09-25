@@ -8,20 +8,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.JOptionPane;
 
-import modelo.Usuario;
-import modelo.UsuarioCrud;
+import modelo.Cliente;
+import modelo.ClienteCrud;
 
 /**
- * Servlet implementation class ServletGestionUsuario
+ * Servlet implementation class ServletGestionCliente
  */
-@WebServlet("/ServletGestionUsuario")
-public class ServletGestionUsuario extends HttpServlet {
+@WebServlet("/ServletGestionCliente")
+public class ServletGestionCliente extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public ServletGestionUsuario() {
+    public ServletGestionCliente() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -41,25 +41,25 @@ public class ServletGestionUsuario extends HttpServlet {
 		// TODO Auto-generated method stub
 		// doGet(request, response);
 		
-		String  n,e,u,p;
+		String  n,d,t,e;
 		int c;
 		boolean	y;	
 		if(request.getParameter("btnCrear")!=null) {
 			
 			c= Integer.parseInt(request.getParameter("cedula"));
 			n= request.getParameter("nombre");
+			d= request.getParameter("direccion");
+			t= request.getParameter("telefono");
 			e= request.getParameter("email");
-			u= request.getParameter("user");
-			p= request.getParameter("pass");
-			Usuario us = new Usuario(c, n, e, u, p);
-			UsuarioCrud usc= new UsuarioCrud();
-			y=usc.insertarusuario(us);
+			Cliente cl = new Cliente(c, n, d, t, e);
+			ClienteCrud clc= new ClienteCrud();
+			y=clc.insertarCliente(cl);
 			if(y) {
-				 JOptionPane.showMessageDialog(null, "El usuario fue registrado");		
-				 response.sendRedirect("usuarios.jsp");
+				 JOptionPane.showMessageDialog(null, "El cliente fue registrado");		
+				 response.sendRedirect("clientes.jsp");
 			} else {
-				JOptionPane.showMessageDialog(null, "El usuario fue no registrado");
-				response.sendRedirect("usuarios.jsp");
+				JOptionPane.showMessageDialog(null, "El cliente no fue registrado");
+				response.sendRedirect("clientes.jsp");
 			}
 			
 		}
@@ -68,18 +68,18 @@ public class ServletGestionUsuario extends HttpServlet {
 			
 			c= Integer.parseInt(request.getParameter("cedula"));
 			n= request.getParameter("nombre");
+			d= request.getParameter("direccion");
+			t= request.getParameter("telefono");
 			e= request.getParameter("email");
-			u= request.getParameter("user");
-			p= request.getParameter("pass");
-			Usuario us = new Usuario(c, n, e, u, p);
-			UsuarioCrud usc= new UsuarioCrud();
-			y=usc.modificarusuario(us);
+			Cliente cl = new Cliente(c, n, d, t, e);
+			ClienteCrud clc= new ClienteCrud();
+			y=clc.modificarCliente(cl);
 			if(y) {
 				 JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
-				 response.sendRedirect("usuarios.jsp");
+				 response.sendRedirect("clientes.jsp");
 			} else {
 				JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
-				response.sendRedirect("usuarios.jsp");
+				response.sendRedirect("clientes.jsp");
 			}
 			
 		}
@@ -87,22 +87,22 @@ public class ServletGestionUsuario extends HttpServlet {
 		if (request.getParameter("btnConsultar") != null) {
 			
 			c = Integer.parseInt(request.getParameter("cedulab"));
-			response.sendRedirect("usuarios.jsp");
+			response.sendRedirect("clientes.jsp");
 			request.setAttribute("cedulab", c);
 			
 		}
 		
 		if (request.getParameter("btnEliminar") != null) {
 			c= Integer.parseInt(request.getParameter("cedulab"));
-			Usuario us = new Usuario(c);
-			UsuarioCrud usc= new UsuarioCrud();
-			y=usc.elminarusuario(us);
+			Cliente cl = new Cliente(c);
+			ClienteCrud clc= new ClienteCrud();
+			y=clc.elminarCliente(cl);
 			if (y) {
-				 JOptionPane.showMessageDialog(null, "El usuario fue eliminado");		
-				 response.sendRedirect("usuarios.jsp");
+				JOptionPane.showMessageDialog(null, "El cliente fue eliminado");		
+				response.sendRedirect("clientes.jsp");
 			} else {
-				JOptionPane.showMessageDialog(null, "El usuario no fue eliminado ");
-				response.sendRedirect("usuarios.jsp");
+				JOptionPane.showMessageDialog(null, "El cliente no fue eliminado ");
+				response.sendRedirect("clientes.jsp");
 			}
 			
 		}

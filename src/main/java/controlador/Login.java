@@ -34,7 +34,7 @@ public class Login extends HttpServlet {
 			u=request.getParameter("user");
 			c= request.getParameter("pass");
 			if (u.equals("admininicial") && c.equals("admin123456")) {
-				response.sendRedirect("menu.jsp");	
+				response.sendRedirect("usuarios.jsp");
 			} else {
 				JOptionPane.showMessageDialog(null, "datos incorrectos");
 				response.sendRedirect("index.jsp");

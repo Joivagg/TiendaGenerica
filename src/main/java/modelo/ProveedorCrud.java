@@ -8,35 +8,35 @@ import java.util.ArrayList;
 
 import controlador.Conexion;
 
-public class UsuarioCrud {
+public class ProveedorCrud {
 	
 	Conexion con= new Conexion();
 	Connection cnn= con.conexiondb();
 	PreparedStatement ps;
 	ResultSet rs;
-	ArrayList<Usuario> registro = new ArrayList<>();
+	ArrayList<Proveedor> registro = new ArrayList<>();
 	
-	public ArrayList<Usuario> listadoUsuario (String cedula) {
+	public ArrayList<Proveedor> listadoProveedor (String nit) {
 		
 		registro.clear();
         
         try {
         	
-        	if (cedula == null) {
+        	if (nit == null) {
         		
-        		ps = cnn.prepareStatement("SELECT * FROM usuarios");
+        		ps = cnn.prepareStatement("SELECT * FROM proveedores");
         		
         	} else {
         		
-        		ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE cedula_usuario = '"
-        								  + cedula + "'");
+        		ps = cnn.prepareStatement("SELECT * FROM proveedores WHERE nitproveedor = '"
+        								  + nit + "'");
         		
         	}
             
             rs = ps.executeQuery();
             while (rs.next()) {
                 
-                Usuario data = new Usuario(rs.getInt(1),
+                Proveedor data = new Proveedor(rs.getInt(1),
                 						   rs.getString(2),
                 						   rs.getString(3),
                 						   rs.getString(4),
@@ -55,17 +55,17 @@ public class UsuarioCrud {
 		
 	}
 	
-	public boolean insertarusuario (Usuario us) {
+	public boolean insertarProveedor (Proveedor pr) {
 		int x;
 		boolean dato=false;
 		try {
 			
-			ps= cnn.prepareStatement("INSERT INTO usuarios values(?,?,?,?,?)");
-			ps.setInt(1, us.getCedula_usuario());
-			ps.setString(2, us.getNombre_usuario());
-			ps.setString(3, us.getEmail_usuario());
-			ps.setString(4, us.getUsuario());
-			ps.setString(5, us.getPassword());
+			ps= cnn.prepareStatement("INSERT INTO proveedores values(?,?,?,?,?)");
+			ps.setInt(1, pr.getNitProveedor());
+			ps.setString(2, pr.getNombreProveedor());
+			ps.setString(3, pr.getDireccionProveedor());
+			ps.setString(4, pr.getTelefonoProveedor());
+			ps.setString(5, pr.getCiudadProveedor());
 			x=ps.executeUpdate();
 			if (x>0) {
 				dato=true;
@@ -79,17 +79,17 @@ public class UsuarioCrud {
 		return dato;
 	}
 	
-	public boolean modificarusuario (Usuario us) {
+	public boolean modificarProveedor (Proveedor pr) {
 		int x;
 		boolean dato=false;
 		try {
 
             ps = cnn.prepareStatement(
-                "UPDATE usuarios SET nombre_usuario='" + us.getNombre_usuario() 
-                + "', email_usuario='" + us.getEmail_usuario()
-                + "', usuario='" + us.getUsuario()
-                + "', password='" + us.getPassword()
-                + "' WHERE cedula_usuario='" + us.getCedula_usuario() + "'");
+                "UPDATE proveedores SET nombre_proveedor='" + pr.getNombreProveedor() 
+                + "', direccion_proveedor='" + pr.getDireccionProveedor()
+                + "', telefono_proveedor='" + pr.getTelefonoProveedor()
+                + "', ciudad_proveedor='" + pr.getCiudadProveedor()
+                + "' WHERE nitproveedor='" + pr.getNitProveedor() + "'");
             x = ps.executeUpdate();
             if (x>0) {
 				dato=true;
@@ -103,13 +103,13 @@ public class UsuarioCrud {
 		return dato;
 	}
 	
-	public boolean elminarusuario (Usuario us) {
+	public boolean elminarProveedor (Proveedor pr) {
 		int x;
 		boolean dato=false;
 		try {
 			
-			ps= cnn.prepareStatement("DELETE FROM usuarios WHERE cedula_usuario=?");
-			ps.setInt(1, us.getCedula_usuario() );
+			ps= cnn.prepareStatement("DELETE FROM proveedores WHERE nitproveedor=?");
+			ps.setInt(1, pr.getNitProveedor() );
 			x=ps.executeUpdate();
 			if(x>0)	{
 				dato=true;
