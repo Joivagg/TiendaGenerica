@@ -8,15 +8,15 @@ import java.util.ArrayList;
 
 import controlador.Conexion;
 
-public class ClienteCrud {
+public class ClienteDAO {
 	
 	Conexion con= new Conexion();
 	Connection cnn= con.conexiondb();
 	PreparedStatement ps;
 	ResultSet rs;
-	ArrayList<Cliente> registro = new ArrayList<>();
+	ArrayList<ClienteDTO> registro = new ArrayList<>();
 	
-	public ArrayList<Cliente> listadoCliente (String cedula) {
+	public ArrayList<ClienteDTO> listadoCliente (String cedula) {
 		
 		registro.clear();
         
@@ -36,7 +36,7 @@ public class ClienteCrud {
             rs = ps.executeQuery();
             while (rs.next()) {
                 
-                Cliente data = new Cliente(rs.getInt(1),
+                ClienteDTO data = new ClienteDTO(rs.getInt(1),
                 						   rs.getString(2),
                 						   rs.getString(3),
                 						   rs.getString(4),
@@ -55,7 +55,7 @@ public class ClienteCrud {
 		
 	}
 	
-	public boolean insertarCliente (Cliente cl) {
+	public boolean insertarCliente (ClienteDTO cl) {
 		int x;
 		boolean dato=false;
 		try {
@@ -79,7 +79,7 @@ public class ClienteCrud {
 		return dato;
 	}
 	
-	public boolean modificarCliente (Cliente cl) {
+	public boolean modificarCliente (ClienteDTO cl) {
 		int x;
 		boolean dato=false;
 		try {
@@ -103,7 +103,7 @@ public class ClienteCrud {
 		return dato;
 	}
 	
-	public boolean elminarCliente (Cliente cl) {
+	public boolean elminarCliente (ClienteDTO cl) {
 		int x;
 		boolean dato=false;
 		try {

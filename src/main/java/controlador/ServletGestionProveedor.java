@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.JOptionPane;
 
-import modelo.Proveedor;
-import modelo.ProveedorCrud;
+import modelo.ProveedorDTO;
+import modelo.ProveedorDAO;
 
 /**
  * Servlet implementation class ServletGestionProveedor
@@ -51,8 +51,8 @@ public class ServletGestionProveedor extends HttpServlet {
 			d= request.getParameter("direccion");
 			t= request.getParameter("telefono");
 			c= request.getParameter("ciudad");
-			Proveedor pr = new Proveedor(nit, n, d, t, c);
-			ProveedorCrud prc= new ProveedorCrud();
+			ProveedorDTO pr = new ProveedorDTO(nit, n, d, t, c);
+			ProveedorDAO prc= new ProveedorDAO();
 			y=prc.insertarProveedor(pr);
 			if(y) {
 				 JOptionPane.showMessageDialog(null, "El proveedor fue registrado");		
@@ -71,8 +71,8 @@ public class ServletGestionProveedor extends HttpServlet {
 			d= request.getParameter("direccion");
 			t= request.getParameter("telefono");
 			c= request.getParameter("ciudad");
-			Proveedor pr = new Proveedor(nit, n, d, t, c);
-			ProveedorCrud prc= new ProveedorCrud();
+			ProveedorDTO pr = new ProveedorDTO(nit, n, d, t, c);
+			ProveedorDAO prc= new ProveedorDAO();
 			y=prc.modificarProveedor(pr);
 			if(y) {
 				 JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
@@ -94,8 +94,8 @@ public class ServletGestionProveedor extends HttpServlet {
 		
 		if (request.getParameter("btnEliminar") != null) {
 			nit= Integer.parseInt(request.getParameter("nitb"));
-			Proveedor pr = new Proveedor(nit);
-			ProveedorCrud prc= new ProveedorCrud();
+			ProveedorDTO pr = new ProveedorDTO(nit);
+			ProveedorDAO prc= new ProveedorDAO();
 			y=prc.elminarProveedor(pr);
 			if (y) {
 				JOptionPane.showMessageDialog(null, "El proveedor fue eliminado");		

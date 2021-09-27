@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.JOptionPane;
 
-import modelo.Cliente;
-import modelo.ClienteCrud;
+import modelo.ClienteDTO;
+import modelo.ClienteDAO;
 
 /**
  * Servlet implementation class ServletGestionCliente
@@ -51,8 +51,8 @@ public class ServletGestionCliente extends HttpServlet {
 			d= request.getParameter("direccion");
 			t= request.getParameter("telefono");
 			e= request.getParameter("email");
-			Cliente cl = new Cliente(c, n, d, t, e);
-			ClienteCrud clc= new ClienteCrud();
+			ClienteDTO cl = new ClienteDTO(c, n, d, t, e);
+			ClienteDAO clc= new ClienteDAO();
 			y=clc.insertarCliente(cl);
 			if(y) {
 				 JOptionPane.showMessageDialog(null, "El cliente fue registrado");		
@@ -71,8 +71,8 @@ public class ServletGestionCliente extends HttpServlet {
 			d= request.getParameter("direccion");
 			t= request.getParameter("telefono");
 			e= request.getParameter("email");
-			Cliente cl = new Cliente(c, n, d, t, e);
-			ClienteCrud clc= new ClienteCrud();
+			ClienteDTO cl = new ClienteDTO(c, n, d, t, e);
+			ClienteDAO clc= new ClienteDAO();
 			y=clc.modificarCliente(cl);
 			if(y) {
 				 JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
@@ -94,8 +94,8 @@ public class ServletGestionCliente extends HttpServlet {
 		
 		if (request.getParameter("btnEliminar") != null) {
 			c= Integer.parseInt(request.getParameter("cedulab"));
-			Cliente cl = new Cliente(c);
-			ClienteCrud clc= new ClienteCrud();
+			ClienteDTO cl = new ClienteDTO(c);
+			ClienteDAO clc= new ClienteDAO();
 			y=clc.elminarCliente(cl);
 			if (y) {
 				JOptionPane.showMessageDialog(null, "El cliente fue eliminado");		

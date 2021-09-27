@@ -8,15 +8,15 @@ import java.util.ArrayList;
 
 import controlador.Conexion;
 
-public class ProveedorCrud {
+public class ProveedorDAO {
 	
 	Conexion con= new Conexion();
 	Connection cnn= con.conexiondb();
 	PreparedStatement ps;
 	ResultSet rs;
-	ArrayList<Proveedor> registro = new ArrayList<>();
+	ArrayList<ProveedorDTO> registro = new ArrayList<>();
 	
-	public ArrayList<Proveedor> listadoProveedor (String nit) {
+	public ArrayList<ProveedorDTO> listadoProveedor (String nit) {
 		
 		registro.clear();
         
@@ -36,7 +36,7 @@ public class ProveedorCrud {
             rs = ps.executeQuery();
             while (rs.next()) {
                 
-                Proveedor data = new Proveedor(rs.getInt(1),
+                ProveedorDTO data = new ProveedorDTO(rs.getInt(1),
                 						   rs.getString(2),
                 						   rs.getString(3),
                 						   rs.getString(4),
@@ -55,7 +55,7 @@ public class ProveedorCrud {
 		
 	}
 	
-	public boolean insertarProveedor (Proveedor pr) {
+	public boolean insertarProveedor (ProveedorDTO pr) {
 		int x;
 		boolean dato=false;
 		try {
@@ -79,7 +79,7 @@ public class ProveedorCrud {
 		return dato;
 	}
 	
-	public boolean modificarProveedor (Proveedor pr) {
+	public boolean modificarProveedor (ProveedorDTO pr) {
 		int x;
 		boolean dato=false;
 		try {
@@ -103,7 +103,7 @@ public class ProveedorCrud {
 		return dato;
 	}
 	
-	public boolean elminarProveedor (Proveedor pr) {
+	public boolean elminarProveedor (ProveedorDTO pr) {
 		int x;
 		boolean dato=false;
 		try {

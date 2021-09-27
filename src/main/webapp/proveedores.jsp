@@ -1,6 +1,6 @@
 <%@ page import="controlador.Conexion"%>
-<%@ page import="modelo.Proveedor" %>
-<%@	page import="modelo.ProveedorCrud" %>
+<%@ page import="modelo.ProveedorDTO" %>
+<%@	page import="modelo.ProveedorDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -14,7 +14,7 @@
 <body>
 	<%
 	Conexion con= new Conexion();
-	con.conexiondb();
+			con.conexiondb();
 	%>
 	<header class="cont-header" id="cont-header">
     	<div class="logo-titulo" id="logo-titulo">
@@ -74,11 +74,11 @@
                 </thead>
                 <tbody>
 	                <%
-	                	ProveedorCrud clc = new ProveedorCrud();
-	                	ArrayList<Proveedor> registro = clc.listadoProveedor(request.getParameter("nitb"));
-	                	for(int i = 0; i < registro.size(); i++) {
-	                		
-	                		Proveedor data = registro.get(i);
+	                ProveedorDAO clc = new ProveedorDAO();
+	                	                	                	ArrayList<ProveedorDTO> registro = clc.listadoProveedor(request.getParameter("nitb"));
+	                	                	                	for(int i = 0; i < registro.size(); i++) {
+	                	                	                		
+	                	                	                		ProveedorDTO data = registro.get(i);
 	                %>
                     <tr>
                         <td><%= data.getNitProveedor() %></td>

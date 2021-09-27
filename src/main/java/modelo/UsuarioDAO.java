@@ -6,37 +6,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import controlador.Conexion;
 
-public class UsuarioCrud {
+public class UsuarioDAO {
 	
 	Conexion con= new Conexion();
 	Connection cnn= con.conexiondb();
 	PreparedStatement ps;
 	ResultSet rs;
-	ArrayList<Usuario> registro = new ArrayList<>();
+	ArrayList<UsuarioDTO> registro = new ArrayList<>();
 	
-	public ArrayList<Usuario> listadoUsuario (String cedula) {
+	public ArrayList<UsuarioDTO> listadoUsuario() {
 		
 		registro.clear();
         
         try {
         	
-        	if (cedula == null) {
-        		
-        		ps = cnn.prepareStatement("SELECT * FROM usuarios");
-        		
-        	} else {
-        		
-        		ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE cedula_usuario = '"
-        								  + cedula + "'");
-        		
-        	}
-            
+        	ps = cnn.prepareStatement("SELECT * FROM usuarios");
             rs = ps.executeQuery();
             while (rs.next()) {
                 
-                Usuario data = new Usuario(rs.getInt(1),
+                UsuarioDTO data = new UsuarioDTO(rs.getInt(1),
                 						   rs.getString(2),
                 						   rs.getString(3),
                 						   rs.getString(4),
@@ -55,7 +47,7 @@ public class UsuarioCrud {
 		
 	}
 	
-	public boolean insertarusuario (Usuario us) {
+	public boolean insertarusuario (UsuarioDTO us) {
 		int x;
 		boolean dato=false;
 		try {
@@ -79,7 +71,7 @@ public class UsuarioCrud {
 		return dato;
 	}
 	
-	public boolean modificarusuario (Usuario us) {
+	public boolean modificarusuario (UsuarioDTO us) {
 		int x;
 		boolean dato=false;
 		try {
@@ -103,7 +95,38 @@ public class UsuarioCrud {
 		return dato;
 	}
 	
-	public boolean elminarusuario (Usuario us) {
+	public UsuarioDTO consultarUsuario(String cedula) {
+				
+		registro.clear();
+		
+		try {
+        	
+        	ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE cedula_usuario = ?");
+        	ps.setInt(1, Integer.parseInt(cedula));
+            rs = ps.executeQuery();
+            if (rs.next()) {
+                
+                UsuarioDTO data = new UsuarioDTO(rs.getInt(1),
+                						   rs.getString(2),
+                						   rs.getString(3),
+                						   rs.getString(4),
+                						   rs.getString(5));
+                
+                registro.add(data);
+                
+            }
+            
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+            
+        }
+		
+		return registro.get(0);
+		
+	}
+	
+	public boolean eliminarUsuario(UsuarioDTO us) {
 		int x;
 		boolean dato=false;
 		try {

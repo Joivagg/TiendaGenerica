@@ -8,8 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.JOptionPane;
 
-import modelo.Usuario;
-import modelo.UsuarioCrud;
+import modelo.UsuarioDTO;
+import modelo.UsuarioDAO;
 
 /**
  * Servlet implementation class ServletGestionUsuario
@@ -41,7 +41,7 @@ public class ServletGestionUsuario extends HttpServlet {
 		// TODO Auto-generated method stub
 		// doGet(request, response);
 		
-		String  n,e,u,p;
+		String  n,e,u,p,cc;
 		int c;
 		boolean	y;	
 		if(request.getParameter("btnCrear")!=null) {
@@ -51,12 +51,12 @@ public class ServletGestionUsuario extends HttpServlet {
 			e= request.getParameter("email");
 			u= request.getParameter("user");
 			p= request.getParameter("pass");
-			Usuario us = new Usuario(c, n, e, u, p);
-			UsuarioCrud usc= new UsuarioCrud();
+			UsuarioDTO us = new UsuarioDTO(c, n, e, u, p);
+			UsuarioDAO usc= new UsuarioDAO();
 			y=usc.insertarusuario(us);
 			if(y) {
-				 JOptionPane.showMessageDialog(null, "El usuario fue registrado");		
-				 response.sendRedirect("usuarios.jsp");
+				JOptionPane.showMessageDialog(null, "El usuario fue registrado");		
+				response.sendRedirect("usuarios.jsp");
 			} else {
 				JOptionPane.showMessageDialog(null, "El usuario fue no registrado");
 				response.sendRedirect("usuarios.jsp");
@@ -71,12 +71,12 @@ public class ServletGestionUsuario extends HttpServlet {
 			e= request.getParameter("email");
 			u= request.getParameter("user");
 			p= request.getParameter("pass");
-			Usuario us = new Usuario(c, n, e, u, p);
-			UsuarioCrud usc= new UsuarioCrud();
+			UsuarioDTO us = new UsuarioDTO(c, n, e, u, p);
+			UsuarioDAO usc= new UsuarioDAO();
 			y=usc.modificarusuario(us);
 			if(y) {
-				 JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
-				 response.sendRedirect("usuarios.jsp");
+				JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
+				response.sendRedirect("usuarios.jsp");
 			} else {
 				JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
 				response.sendRedirect("usuarios.jsp");
@@ -86,20 +86,33 @@ public class ServletGestionUsuario extends HttpServlet {
 		
 		if (request.getParameter("btnConsultar") != null) {
 			
-			c = Integer.parseInt(request.getParameter("cedulab"));
-			response.sendRedirect("usuarios.jsp");
-			request.setAttribute("cedulab", c);
+			cc = request.getParameter("cedulab");
+			if (cc.isBlank()) {
+				
+				response.sendRedirect("usuarios.jsp");
+				
+			} else {
+				
+				UsuarioDAO usc = new UsuarioDAO();
+				UsuarioDTO us = usc.consultarUsuario(cc);
+				response.sendRedirect("usuarios.jsp?ced=" + us.getCedula_usuario()
+								 + "&&nom=" + us.getNombre_usuario() 
+								 + "&&ema=" + us.getEmail_usuario() 
+								 + "&&use=" + us.getUsuario() 
+								 + "&&pas=" + us.getPassword());
+				
+			}
 			
 		}
 		
 		if (request.getParameter("btnEliminar") != null) {
 			c= Integer.parseInt(request.getParameter("cedulab"));
-			Usuario us = new Usuario(c);
-			UsuarioCrud usc= new UsuarioCrud();
-			y=usc.elminarusuario(us);
+			UsuarioDTO us = new UsuarioDTO(c);
+			UsuarioDAO usc= new UsuarioDAO();
+			y=usc.eliminarUsuario(us);
 			if (y) {
-				 JOptionPane.showMessageDialog(null, "El usuario fue eliminado");		
-				 response.sendRedirect("usuarios.jsp");
+				JOptionPane.showMessageDialog(null, "El usuario fue eliminado");		
+				response.sendRedirect("usuarios.jsp");
 			} else {
 				JOptionPane.showMessageDialog(null, "El usuario no fue eliminado ");
 				response.sendRedirect("usuarios.jsp");

@@ -1,6 +1,6 @@
 package modelo;
 
-public class Usuario {
+public class UsuarioDTO {
 	
 	private int cedula_usuario;
 	private String nombre_usuario;
@@ -8,7 +8,7 @@ public class Usuario {
 	private String usuario;
 	private String password;
 	
-	public Usuario(int cedula_usuario, String nombre_usuario, String email_usuario, String usuario, String password) {
+	public UsuarioDTO(int cedula_usuario, String nombre_usuario, String email_usuario, String usuario, String password) {
 		super();
 		this.cedula_usuario = cedula_usuario;
 		this.nombre_usuario = nombre_usuario;
@@ -17,7 +17,7 @@ public class Usuario {
 		this.password = password;
 	}
 	
-	public Usuario(int cedula_usuario) {
+	public UsuarioDTO(int cedula_usuario) {
 		super();
 		this.cedula_usuario = cedula_usuario;
 	}

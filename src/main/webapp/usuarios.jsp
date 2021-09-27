@@ -1,6 +1,6 @@
 <%@ page import="controlador.Conexion"%>
-<%@ page import="modelo.Usuario" %>
-<%@	page import="modelo.UsuarioCrud"%>
+<%@ page import="modelo.UsuarioDTO" %>
+<%@	page import="modelo.UsuarioDAO"%>
 <%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -36,7 +36,7 @@
         <fieldset class="field1">
             <form action="ServletGestionUsuario" method="post">
             	<label for="">Cédula:
-            		<input type="text" name="cedula">
+            		<input type="text" name="cedula" value="">
             	</label>
                 <label for="">Nombre Completo: 
                     <input type="text" name="nombre">
@@ -74,11 +74,13 @@
                 </thead>
                 <tbody>
 	                <%
-	                	UsuarioCrud usu = new UsuarioCrud();
-	                	ArrayList<Usuario> registro = usu.listadoUsuario(request.getParameter("cedulab"));
-	                	for(int i = 0; i < registro.size(); i++) {
-	                		
-	                		Usuario data = registro.get(i);
+	                if (request.getParameter("ced") == null) {
+	                	
+	                	UsuarioDAO usu = new UsuarioDAO();
+	               		ArrayList<UsuarioDTO> registro = usu.listadoUsuario();
+	               		for(int i = 0; i < registro.size(); i++) {
+	                	                	                		
+	                		UsuarioDTO data = registro.get(i);
 	                %>
                     <tr>
                         <td><%= data.getCedula_usuario() %></td>
@@ -89,6 +91,19 @@
                     </tr>
                     <%
                     	}
+	               	
+	                } else {
+	                	
+					%>
+					<tr>
+						<td><%= request.getParameter("ced") %></td>
+						<td><%= request.getParameter("nom") %></td>
+						<td><%= request.getParameter("ema") %></td>
+                        <td><%= request.getParameter("use") %></td>
+                        <td><%= request.getParameter("pas") %></td>
+                    </tr>
+					<%
+	                }
                     %>
                 </tbody>
             </table>

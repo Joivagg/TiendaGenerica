@@ -1,6 +1,6 @@
 package modelo;
 
-public class Proveedor {
+public class ProveedorDTO {
 	
 	private int nitProveedor;
 	private String nombreProveedor;
@@ -8,7 +8,7 @@ public class Proveedor {
 	private String telefonoProveedor;
 	private String ciudadProveedor;
 	
-	public Proveedor(int nitProveedor, String nombreProveedor, String direccionProveedor, String telefonoProveedor,
+	public ProveedorDTO(int nitProveedor, String nombreProveedor, String direccionProveedor, String telefonoProveedor,
 			String ciudadProveedor) {
 		super();
 		this.nitProveedor = nitProveedor;
@@ -18,7 +18,7 @@ public class Proveedor {
 		this.ciudadProveedor = ciudadProveedor;
 	}
 
-	public Proveedor(int nitProveedor) {
+	public ProveedorDTO(int nitProveedor) {
 		super();
 		this.nitProveedor = nitProveedor;
 	}

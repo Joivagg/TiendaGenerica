@@ -1,6 +1,6 @@
 <%@ page import="controlador.Conexion"%>
-<%@ page import="modelo.Cliente" %>
-<%@	page import="modelo.ClienteCrud" %>
+<%@ page import="modelo.ClienteDTO" %>
+<%@	page import="modelo.ClienteDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -14,7 +14,7 @@
 <body>
 	<%
 	Conexion con= new Conexion();
-	con.conexiondb();
+			con.conexiondb();
 	%>
 	<header class="cont-header" id="cont-header">
     	<div class="logo-titulo" id="logo-titulo">
@@ -74,11 +74,11 @@
                 </thead>
                 <tbody>
 	                <%
-	                	ClienteCrud clc = new ClienteCrud();
-	                	ArrayList<Cliente> registro = clc.listadoCliente(request.getParameter("cedulab"));
-	                	for(int i = 0; i < registro.size(); i++) {
-	                		
-	                		Cliente data = registro.get(i);
+	                ClienteDAO clc = new ClienteDAO();
+	                	                	                	ArrayList<ClienteDTO> registro = clc.listadoCliente(request.getParameter("cedulab"));
+	                	                	                	for(int i = 0; i < registro.size(); i++) {
+	                	                	                		
+	                	                	                		ClienteDTO data = registro.get(i);
 	                %>
                     <tr>
                         <td><%= data.getCedulaCliente() %></td>

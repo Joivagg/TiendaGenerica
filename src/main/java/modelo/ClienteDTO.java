@@ -1,6 +1,6 @@
 package modelo;
 
-public class Cliente {
+public class ClienteDTO {
 	
 	private int cedulaCliente;
 	private String nombreCliente;
@@ -8,7 +8,7 @@ public class Cliente {
 	private String telefonoCliente;
 	private String emailCliente;
 	
-	public Cliente(int cedulaCliente, String nombreCliente, String direccionCliente, String telefonoCliente,
+	public ClienteDTO(int cedulaCliente, String nombreCliente, String direccionCliente, String telefonoCliente,
 			String emailCliente) {
 		super();
 		this.cedulaCliente = cedulaCliente;
@@ -18,7 +18,7 @@ public class Cliente {
 		this.emailCliente = emailCliente;
 	}
 	
-	public Cliente(int cedulaCliente) {
+	public ClienteDTO(int cedulaCliente) {
 		super();
 		this.cedulaCliente = cedulaCliente;
 	}
