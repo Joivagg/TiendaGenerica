@@ -41,7 +41,7 @@ public class ServletGestionCliente extends HttpServlet {
 		// TODO Auto-generated method stub
 		// doGet(request, response);
 		
-		String  n,d,t,e;
+		String  n,d,t,e,cc;
 		int c;
 		boolean	y;	
 		if(request.getParameter("btnCrear")!=null) {
@@ -55,8 +55,8 @@ public class ServletGestionCliente extends HttpServlet {
 			ClienteDAO clc= new ClienteDAO();
 			y=clc.insertarCliente(cl);
 			if(y) {
-				 JOptionPane.showMessageDialog(null, "El cliente fue registrado");		
-				 response.sendRedirect("clientes.jsp");
+				JOptionPane.showMessageDialog(null, "El cliente fue registrado");		
+				response.sendRedirect("clientes.jsp");
 			} else {
 				JOptionPane.showMessageDialog(null, "El cliente no fue registrado");
 				response.sendRedirect("clientes.jsp");
@@ -75,8 +75,8 @@ public class ServletGestionCliente extends HttpServlet {
 			ClienteDAO clc= new ClienteDAO();
 			y=clc.modificarCliente(cl);
 			if(y) {
-				 JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
-				 response.sendRedirect("clientes.jsp");
+				JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
+				response.sendRedirect("clientes.jsp");
 			} else {
 				JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
 				response.sendRedirect("clientes.jsp");
@@ -86,14 +86,36 @@ public class ServletGestionCliente extends HttpServlet {
 		
 		if (request.getParameter("btnConsultar") != null) {
 			
-			c = Integer.parseInt(request.getParameter("cedulab"));
-			response.sendRedirect("clientes.jsp");
-			request.setAttribute("cedulab", c);
+			cc = request.getParameter("cedulab");
+			ClienteDAO clc = new ClienteDAO();
+			if (cc.isBlank()) {
+				
+				response.sendRedirect("clientes.jsp");					
+								
+			} else {
+				
+				if (!clc.verificarCliente(cc)) {
+					
+					JOptionPane.showMessageDialog(null, "El cliente no está registrado");
+					response.sendRedirect("clientes.jsp");
+					
+				} else {
+				
+					ClienteDTO cl = clc.consultarCliente();
+					response.sendRedirect("clientes.jsp?ced=" + cl.getCedulaCliente()
+								 + "&&nom=" + cl.getNombreCliente() 
+								 + "&&dir=" + cl.getDireccionCliente() 
+								 + "&&tel=" + cl.getTelefonoCliente() 
+								 + "&&ema=" + cl.getEmailCliente());
+				
+				}
+				
+			}
 			
 		}
 		
 		if (request.getParameter("btnEliminar") != null) {
-			c= Integer.parseInt(request.getParameter("cedulab"));
+			c= Integer.parseInt(request.getParameter("cedula"));
 			ClienteDTO cl = new ClienteDTO(c);
 			ClienteDAO clc= new ClienteDAO();
 			y=clc.elminarCliente(cl);
@@ -101,7 +123,7 @@ public class ServletGestionCliente extends HttpServlet {
 				JOptionPane.showMessageDialog(null, "El cliente fue eliminado");		
 				response.sendRedirect("clientes.jsp");
 			} else {
-				JOptionPane.showMessageDialog(null, "El cliente no fue eliminado ");
+				JOptionPane.showMessageDialog(null, "El cliente no fue eliminado");
 				response.sendRedirect("clientes.jsp");
 			}
 			

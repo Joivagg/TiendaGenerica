@@ -6,8 +6,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import controlador.Conexion;
 
 public class UsuarioDAO {
@@ -47,7 +45,7 @@ public class UsuarioDAO {
 		
 	}
 	
-	public boolean insertarusuario (UsuarioDTO us) {
+	public boolean insertarUsuario(UsuarioDTO us) {
 		int x;
 		boolean dato=false;
 		try {
@@ -71,7 +69,7 @@ public class UsuarioDAO {
 		return dato;
 	}
 	
-	public boolean modificarusuario (UsuarioDTO us) {
+	public boolean modificarUsuario(UsuarioDTO us) {
 		int x;
 		boolean dato=false;
 		try {
@@ -95,26 +93,56 @@ public class UsuarioDAO {
 		return dato;
 	}
 	
-	public UsuarioDTO consultarUsuario(String cedula) {
+	public boolean verificarUsuario(String cedula) {
+		
+		try {
+			
+			ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE cedula_usuario = ?");
+			ps.setInt(1, Integer.parseInt(cedula));
+			rs = ps.executeQuery();
+			return rs.next();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return false;
+			
+		}
+		
+	}
+	
+	public boolean verificarLogin(String user, String password) {
+		
+		try {
+			
+			ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE usuario = ? AND password = ?");
+			ps.setString(1, user);
+			ps.setString(2, password);
+			rs = ps.executeQuery();
+			return rs.next();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return false;
+			
+		}
+		
+	}
+	
+	public UsuarioDTO consultarUsuario() {
 				
 		registro.clear();
 		
 		try {
         	
-        	ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE cedula_usuario = ?");
-        	ps.setInt(1, Integer.parseInt(cedula));
-            rs = ps.executeQuery();
-            if (rs.next()) {
-                
-                UsuarioDTO data = new UsuarioDTO(rs.getInt(1),
+            UsuarioDTO data = new UsuarioDTO(rs.getInt(1),
                 						   rs.getString(2),
                 						   rs.getString(3),
                 						   rs.getString(4),
                 						   rs.getString(5));
                 
-                registro.add(data);
-                
-            }
+            registro.add(data);
             
         } catch (SQLException e) {
             
@@ -139,8 +167,7 @@ public class UsuarioDAO {
 			}
 			
 		} catch (SQLException e) {
-			
-			// TODO Auto-generated catch block
+
 			e.printStackTrace();
 			
 		}

@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.JOptionPane;
 
+import modelo.UsuarioDAO;
+
 /**
  * Servlet implementation class Login
  */
@@ -31,12 +33,13 @@ public class Login extends HttpServlet {
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		if (request.getParameter("btnAceptar")!=null) {
 			String u,c;
-			u=request.getParameter("user");
+			u= request.getParameter("user");
 			c= request.getParameter("pass");
-			if (u.equals("admininicial") && c.equals("admin123456")) {
+			UsuarioDAO usc = new UsuarioDAO();
+			if (usc.verificarLogin(u, c)) {
 				response.sendRedirect("usuarios.jsp");
 			} else {
-				JOptionPane.showMessageDialog(null, "datos incorrectos");
+				JOptionPane.showMessageDialog(null, "Datos incorrectos");
 				response.sendRedirect("index.jsp");
 			}
 		}

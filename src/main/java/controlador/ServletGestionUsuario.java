@@ -53,12 +53,12 @@ public class ServletGestionUsuario extends HttpServlet {
 			p= request.getParameter("pass");
 			UsuarioDTO us = new UsuarioDTO(c, n, e, u, p);
 			UsuarioDAO usc= new UsuarioDAO();
-			y=usc.insertarusuario(us);
+			y=usc.insertarUsuario(us);
 			if(y) {
 				JOptionPane.showMessageDialog(null, "El usuario fue registrado");		
 				response.sendRedirect("usuarios.jsp");
 			} else {
-				JOptionPane.showMessageDialog(null, "El usuario fue no registrado");
+				JOptionPane.showMessageDialog(null, "El usuario no fue registrado");
 				response.sendRedirect("usuarios.jsp");
 			}
 			
@@ -73,7 +73,7 @@ public class ServletGestionUsuario extends HttpServlet {
 			p= request.getParameter("pass");
 			UsuarioDTO us = new UsuarioDTO(c, n, e, u, p);
 			UsuarioDAO usc= new UsuarioDAO();
-			y=usc.modificarusuario(us);
+			y=usc.modificarUsuario(us);
 			if(y) {
 				JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
 				response.sendRedirect("usuarios.jsp");
@@ -87,26 +87,35 @@ public class ServletGestionUsuario extends HttpServlet {
 		if (request.getParameter("btnConsultar") != null) {
 			
 			cc = request.getParameter("cedulab");
+			UsuarioDAO usc = new UsuarioDAO();
 			if (cc.isBlank()) {
 				
-				response.sendRedirect("usuarios.jsp");
-				
+				response.sendRedirect("usuarios.jsp");					
+								
 			} else {
 				
-				UsuarioDAO usc = new UsuarioDAO();
-				UsuarioDTO us = usc.consultarUsuario(cc);
-				response.sendRedirect("usuarios.jsp?ced=" + us.getCedula_usuario()
+				if (!usc.verificarUsuario(cc)) {
+					
+					JOptionPane.showMessageDialog(null, "El usuario no está registrado");
+					response.sendRedirect("usuarios.jsp");
+					
+				} else {
+				
+					UsuarioDTO us = usc.consultarUsuario();
+					response.sendRedirect("usuarios.jsp?ced=" + us.getCedula_usuario()
 								 + "&&nom=" + us.getNombre_usuario() 
 								 + "&&ema=" + us.getEmail_usuario() 
 								 + "&&use=" + us.getUsuario() 
 								 + "&&pas=" + us.getPassword());
+				
+				}
 				
 			}
 			
 		}
 		
 		if (request.getParameter("btnEliminar") != null) {
-			c= Integer.parseInt(request.getParameter("cedulab"));
+			c= Integer.parseInt(request.getParameter("cedula"));
 			UsuarioDTO us = new UsuarioDTO(c);
 			UsuarioDAO usc= new UsuarioDAO();
 			y=usc.eliminarUsuario(us);

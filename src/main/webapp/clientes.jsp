@@ -14,7 +14,7 @@
 <body>
 	<%
 	Conexion con= new Conexion();
-			con.conexiondb();
+	con.conexiondb();
 	%>
 	<header class="cont-header" id="cont-header">
     	<div class="logo-titulo" id="logo-titulo">
@@ -35,6 +35,9 @@
     <header>
         <fieldset class="field1">
             <form action="ServletGestionCliente" method="post">
+            	<%
+            	if (request.getParameter("ced") == null) {
+               	%>
             	<label for="">Cédula:
             		<input type="text" name="cedula">
             	</label>
@@ -51,7 +54,29 @@
                     <input type="email" name="email">
                 </label>
                 <button type="submit" name="btnCrear">Crear</button>
+                <% 
+            	} else {
+                %>
+                <label for="">Cédula:
+            		<input type="text" name="cedula" value="<%=request.getParameter("ced")%>" readonly="readonly">
+            	</label>
+                <label for="">Nombre Completo: 
+                    <input type="text" name="nombre" value="<%=request.getParameter("nom")%>">
+                </label>
+                <label for="">Dirección: 
+                    <input type="text" name="direccion" value="<%=request.getParameter("dir")%>">
+                </label>
+                <label for="">Teléfono: 
+                    <input type="text" name="telefono" value="<%=request.getParameter("tel")%>">
+                </label>
+                <label for="">Correo Electrónico: 
+                    <input type="email" name="email" value="<%=request.getParameter("ema")%>">
+                </label>
                 <button type="submit" name="btnModificar">Modificar</button>
+                <button type="submit" name="btnEliminar">Eliminar</button> 
+                <%
+            	}
+                %>
             </form>
         </fieldset>
         <fieldset class="field2">
@@ -60,7 +85,6 @@
                     <input type="text" name="cedulab">
                 </label>
                 <button type="submit" name="btnConsultar">Consultar</button>
-                <button type="submit" name="btnEliminar">Eliminar</button> 
             </form>
             <table class="tabla">
             	<thead>
@@ -75,10 +99,12 @@
                 <tbody>
 	                <%
 	                ClienteDAO clc = new ClienteDAO();
-	                	                	                	ArrayList<ClienteDTO> registro = clc.listadoCliente(request.getParameter("cedulab"));
-	                	                	                	for(int i = 0; i < registro.size(); i++) {
+	                if (request.getParameter("ced") == null) {
+	                	
+	                	ArrayList<ClienteDTO> registro = clc.listadoCliente();
+	               		for(int i = 0; i < registro.size(); i++) {
 	                	                	                		
-	                	                	                		ClienteDTO data = registro.get(i);
+	                		ClienteDTO data = registro.get(i);
 	                %>
                     <tr>
                         <td><%= data.getCedulaCliente() %></td>
@@ -89,7 +115,20 @@
                     </tr>
                     <%
                     	}
-                    %>
+	               	
+	                } else {
+	                	
+					%>
+					<tr>
+						<td><%= request.getParameter("ced") %></td>
+						<td><%= request.getParameter("nom") %></td>
+						<td><%= request.getParameter("dir") %></td>
+                        <td><%= request.getParameter("tel") %></td>
+                        <td><%= request.getParameter("ema") %></td>
+                    </tr>
+					<%
+	                }
+					%>
                 </tbody>
             </table>
         </fieldset>

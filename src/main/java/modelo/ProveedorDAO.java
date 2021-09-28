@@ -16,23 +16,13 @@ public class ProveedorDAO {
 	ResultSet rs;
 	ArrayList<ProveedorDTO> registro = new ArrayList<>();
 	
-	public ArrayList<ProveedorDTO> listadoProveedor (String nit) {
+	public ArrayList<ProveedorDTO> listadoProveedor() {
 		
 		registro.clear();
         
-        try {
-        	
-        	if (nit == null) {
-        		
-        		ps = cnn.prepareStatement("SELECT * FROM proveedores");
-        		
-        	} else {
-        		
-        		ps = cnn.prepareStatement("SELECT * FROM proveedores WHERE nitproveedor = '"
-        								  + nit + "'");
-        		
-        	}
-            
+		try {
+    		
+        	ps = cnn.prepareStatement("SELECT * FROM proveedores");
             rs = ps.executeQuery();
             while (rs.next()) {
                 
@@ -55,7 +45,7 @@ public class ProveedorDAO {
 		
 	}
 	
-	public boolean insertarProveedor (ProveedorDTO pr) {
+	public boolean insertarProveedor(ProveedorDTO pr) {
 		int x;
 		boolean dato=false;
 		try {
@@ -79,7 +69,7 @@ public class ProveedorDAO {
 		return dato;
 	}
 	
-	public boolean modificarProveedor (ProveedorDTO pr) {
+	public boolean modificarProveedor(ProveedorDTO pr) {
 		int x;
 		boolean dato=false;
 		try {
@@ -103,7 +93,49 @@ public class ProveedorDAO {
 		return dato;
 	}
 	
-	public boolean elminarProveedor (ProveedorDTO pr) {
+	public boolean verificarProveedor(String nit) {
+		
+		try {
+			
+			ps = cnn.prepareStatement("SELECT * FROM proveedores WHERE nitproveedor = ?");
+			ps.setInt(1, Integer.parseInt(nit));
+			rs = ps.executeQuery();
+			return rs.next();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return false;
+			
+		}
+		
+	}
+	
+	public ProveedorDTO consultarProveedor() {
+		
+		registro.clear();
+		
+		try {
+        	
+            ProveedorDTO data = new ProveedorDTO(rs.getInt(1),
+                						   rs.getString(2),
+                						   rs.getString(3),
+                						   rs.getString(4),
+                						   rs.getString(5));
+                
+            registro.add(data);
+            
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+            
+        }
+		
+		return registro.get(0);
+		
+	}
+	
+	public boolean elminarProveedor(ProveedorDTO pr) {
 		int x;
 		boolean dato=false;
 		try {
@@ -117,7 +149,6 @@ public class ProveedorDAO {
 			
 		} catch (SQLException e) {
 			
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
 		}

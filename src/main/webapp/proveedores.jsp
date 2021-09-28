@@ -14,7 +14,7 @@
 <body>
 	<%
 	Conexion con= new Conexion();
-			con.conexiondb();
+	con.conexiondb();
 	%>
 	<header class="cont-header" id="cont-header">
     	<div class="logo-titulo" id="logo-titulo">
@@ -35,6 +35,9 @@
     <header>
         <fieldset class="field1">
             <form action="ServletGestionProveedor" method="post">
+            	<%
+            	if (request.getParameter("nit") == null) {
+               	%>
             	<label for="">NIT:
             		<input type="text" name="nit">
             	</label>
@@ -48,10 +51,32 @@
                     <input type="text" name="telefono">
                 </label>
                 <label for="">Ciudad: 
-                    <input type="text" name="ciudad">
+                    <input type="email" name="ciudad">
                 </label>
                 <button type="submit" name="btnCrear">Crear</button>
+                <% 
+            	} else {
+                %>
+                <label for="">NIT:
+            		<input type="text" name="nit" value="<%=request.getParameter("nit")%>" readonly="readonly">
+            	</label>
+                <label for="">Nombre Completo: 
+                    <input type="text" name="nombre" value="<%=request.getParameter("nom")%>">
+                </label>
+                <label for="">Dirección: 
+                    <input type="text" name="direccion" value="<%=request.getParameter("dir")%>">
+                </label>
+                <label for="">Teléfono: 
+                    <input type="text" name="telefono" value="<%=request.getParameter("tel")%>">
+                </label>
+                <label for="">Ciudad: 
+                    <input type="email" name="ciudad" value="<%=request.getParameter("ciu")%>">
+                </label>
                 <button type="submit" name="btnModificar">Modificar</button>
+                <button type="submit" name="btnEliminar">Eliminar</button> 
+                <%
+            	}
+                %>
             </form>
         </fieldset>
         <fieldset class="field2">
@@ -60,7 +85,6 @@
                     <input type="text" name="nitb">
                 </label>
                 <button type="submit" name="btnConsultar">Consultar</button>
-                <button type="submit" name="btnEliminar">Eliminar</button> 
             </form>
             <table class="tabla">
             	<thead>
@@ -74,11 +98,13 @@
                 </thead>
                 <tbody>
 	                <%
-	                ProveedorDAO clc = new ProveedorDAO();
-	                	                	                	ArrayList<ProveedorDTO> registro = clc.listadoProveedor(request.getParameter("nitb"));
-	                	                	                	for(int i = 0; i < registro.size(); i++) {
+	                ProveedorDAO prc = new ProveedorDAO();
+	                if (request.getParameter("nit") == null) {
+	                	
+	                	ArrayList<ProveedorDTO> registro = prc.listadoProveedor();
+	               		for(int i = 0; i < registro.size(); i++) {
 	                	                	                		
-	                	                	                		ProveedorDTO data = registro.get(i);
+	                		ProveedorDTO data = registro.get(i);
 	                %>
                     <tr>
                         <td><%= data.getNitProveedor() %></td>
@@ -89,7 +115,20 @@
                     </tr>
                     <%
                     	}
-                    %>
+	               	
+	                } else {
+	                	
+					%>
+					<tr>
+						<td><%= request.getParameter("nit") %></td>
+						<td><%= request.getParameter("nom") %></td>
+						<td><%= request.getParameter("dir") %></td>
+                        <td><%= request.getParameter("tel") %></td>
+                        <td><%= request.getParameter("ciu") %></td>
+                    </tr>
+					<%
+	                }
+					%>
                 </tbody>
             </table>
         </fieldset>

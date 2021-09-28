@@ -16,23 +16,13 @@ public class ClienteDAO {
 	ResultSet rs;
 	ArrayList<ClienteDTO> registro = new ArrayList<>();
 	
-	public ArrayList<ClienteDTO> listadoCliente (String cedula) {
+	public ArrayList<ClienteDTO> listadoCliente() {
 		
 		registro.clear();
         
         try {
-        	
-        	if (cedula == null) {
         		
-        		ps = cnn.prepareStatement("SELECT * FROM clientes");
-        		
-        	} else {
-        		
-        		ps = cnn.prepareStatement("SELECT * FROM clientes WHERE cedula_cliente = '"
-        								  + cedula + "'");
-        		
-        	}
-            
+        	ps = cnn.prepareStatement("SELECT * FROM clientes");
             rs = ps.executeQuery();
             while (rs.next()) {
                 
@@ -55,7 +45,7 @@ public class ClienteDAO {
 		
 	}
 	
-	public boolean insertarCliente (ClienteDTO cl) {
+	public boolean insertarCliente(ClienteDTO cl) {
 		int x;
 		boolean dato=false;
 		try {
@@ -79,7 +69,7 @@ public class ClienteDAO {
 		return dato;
 	}
 	
-	public boolean modificarCliente (ClienteDTO cl) {
+	public boolean modificarCliente(ClienteDTO cl) {
 		int x;
 		boolean dato=false;
 		try {
@@ -103,7 +93,49 @@ public class ClienteDAO {
 		return dato;
 	}
 	
-	public boolean elminarCliente (ClienteDTO cl) {
+	public boolean verificarCliente(String cedula) {
+		
+		try {
+			
+			ps = cnn.prepareStatement("SELECT * FROM clientes WHERE cedula_cliente = ?");
+			ps.setInt(1, Integer.parseInt(cedula));
+			rs = ps.executeQuery();
+			return rs.next();
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			return false;
+			
+		}
+		
+	}
+	
+	public ClienteDTO consultarCliente() {
+		
+		registro.clear();
+		
+		try {
+        	
+            ClienteDTO data = new ClienteDTO(rs.getInt(1),
+                						   rs.getString(2),
+                						   rs.getString(3),
+                						   rs.getString(4),
+                						   rs.getString(5));
+                
+            registro.add(data);
+            
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+            
+        }
+		
+		return registro.get(0);
+		
+	}
+	
+	public boolean elminarCliente(ClienteDTO cl) {
 		int x;
 		boolean dato=false;
 		try {
@@ -117,7 +149,6 @@ public class ClienteDAO {
 			
 		} catch (SQLException e) {
 			
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
 		}
