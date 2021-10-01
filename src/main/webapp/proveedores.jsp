@@ -25,8 +25,8 @@
             <ul>
                 <li><a href="usuarios.jsp">Usuarios</a></li>
                 <li><a href="clientes.jsp">Clientes</a></li>
-                <li><a href="#">Provedores</a></li>
-                <li><a href="#">Productos</a></li>
+                <li><a href="#">Proveedores</a></li>
+                <li><a href="productos.jsp">Productos</a></li>
                 <li><a href="#">Ventas</a></li>
                 <li><a href="#">Reportes</a></li>
             </ul>
@@ -51,7 +51,7 @@
                     <input type="text" name="telefono">
                 </label>
                 <label for="">Ciudad: 
-                    <input type="email" name="ciudad">
+                    <input type="text" name="ciudad">
                 </label>
                 <button type="submit" name="btnCrear">Crear</button>
                 <% 
@@ -70,7 +70,7 @@
                     <input type="text" name="telefono" value="<%=request.getParameter("tel")%>">
                 </label>
                 <label for="">Ciudad: 
-                    <input type="email" name="ciudad" value="<%=request.getParameter("ciu")%>">
+                    <input type="text" name="ciudad" value="<%=request.getParameter("ciu")%>">
                 </label>
                 <button type="submit" name="btnModificar">Modificar</button>
                 <button type="submit" name="btnEliminar">Eliminar</button> 
