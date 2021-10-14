@@ -1,6 +1,6 @@
 <%@ page import="controlador.Conexion"%>
 <%@ page import="modelo.UsuarioDTO" %>
-<%@	page import="modelo.UsuarioDAO"%>
+<%@	page import="modelo.UsuarioDAO" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -27,7 +27,7 @@
                 <li><a href="clientes.jsp">Clientes</a></li>
                 <li><a href="proveedores.jsp">Proveedores</a></li>
                 <li><a href="productos.jsp">Productos</a></li>
-                <li><a href="#">Ventas</a></li>
+                <li><a href="ventas.jsp">Ventas</a></li>
                 <li><a href="#">Reportes</a></li>
             </ul>
         </nav>
@@ -58,19 +58,19 @@
             	} else {
                 %>
                 <label for="">Cédula:
-            		<input type="text" name="cedula" value="<%=request.getParameter("ced")%>" readonly="readonly">
+            		<input type="text" name="cedula" value="${usuario.getCedula_usuario()}" readonly="readonly">
             	</label>
                 <label for="">Nombre Completo: 
-                    <input type="text" name="nombre" value="<%=request.getParameter("nom")%>">
+                    <input type="text" name="nombre" value="${usuario.getNombre_usuario()}">
                 </label>
                 <label for="">Correo Electronico: 
-                    <input type="email" name="email" value="<%=request.getParameter("ema")%>">
+                    <input type="email" name="email" value="${usuario.getEmail_usuario()}">
                 </label>
                 <label for="">Usuario: 
-                    <input type="text" name="user" value="<%=request.getParameter("use")%>">
+                    <input type="text" name="user" value="${usuario.getUsuario()}">
                 </label>
                 <label for="">Contraseña: 
-                    <input type="password" name="pass" value="<%=request.getParameter("pas")%>">
+                    <input type="password" name="pass" value="${usuario.getPassword()}">
                 </label>
                 <button type="submit" name="btnModificar">Modificar</button>
                 <button type="submit" name="btnEliminar">Eliminar</button> 
@@ -120,11 +120,11 @@
 	                	
 					%>
 					<tr>
-						<td><%= request.getParameter("ced") %></td>
-						<td><%= request.getParameter("nom") %></td>
-						<td><%= request.getParameter("ema") %></td>
-                        <td><%= request.getParameter("use") %></td>
-                        <td><%= request.getParameter("pas") %></td>
+						<td>${usuario.getCedula_usuario()}</td>
+						<td>${usuario.getNombre_usuario()}</td>
+						<td>${usuario.getEmail_usuario()}</td>
+                        <td>${usuario.getUsuario()}</td>
+                        <td>${usuario.getPassword()}</td>
                     </tr>
 					<%
 	                }

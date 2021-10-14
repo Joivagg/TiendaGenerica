@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import controlador.Conexion;
 
 public class UsuarioDAO {
@@ -105,6 +107,24 @@ public class UsuarioDAO {
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+			return false;
+			
+		}
+		
+	}
+	
+	public boolean consultarCedulaUsuario(String user) {
+		
+		try {
+			
+			ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE usuario = ?");
+			ps.setString(1, user);
+			rs = ps.executeQuery();
+			return rs.next();
+			
+		} catch (SQLException e) {
+			
+			JOptionPane.showMessageDialog(null, e);
 			return false;
 			
 		}

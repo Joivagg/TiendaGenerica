@@ -6,9 +6,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
 import modelo.UsuarioDAO;
+import modelo.UsuarioDTO;
 
 /**
  * Servlet implementation class Login
@@ -37,6 +39,19 @@ public class Login extends HttpServlet {
 			c= request.getParameter("pass");
 			UsuarioDAO usc = new UsuarioDAO();
 			if (usc.verificarLogin(u, c)) {
+				HttpSession ms = request.getSession(true);
+				ms.setAttribute("username", u);
+				if (!usc.consultarCedulaUsuario(u)) {
+					
+					JOptionPane.showMessageDialog(null, "El usuario no está registrado");
+					
+				} else {
+				
+					UsuarioDTO us = usc.consultarUsuario();
+					ms.setAttribute("cedUsuario", us.getCedula_usuario());
+				
+				}
+				JOptionPane.showMessageDialog(null, ms.getAttribute("cedUsuario"));
 				response.sendRedirect("usuarios.jsp");
 			} else {
 				JOptionPane.showMessageDialog(null, "Datos incorrectos");

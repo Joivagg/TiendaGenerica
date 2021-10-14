@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
 import modelo.UsuarioDTO;
@@ -102,11 +103,9 @@ public class ServletGestionUsuario extends HttpServlet {
 				} else {
 				
 					UsuarioDTO us = usc.consultarUsuario();
-					response.sendRedirect("usuarios.jsp?ced=" + us.getCedula_usuario()
-								 + "&&nom=" + us.getNombre_usuario() 
-								 + "&&ema=" + us.getEmail_usuario() 
-								 + "&&use=" + us.getUsuario() 
-								 + "&&pas=" + us.getPassword());
+					HttpSession hs = request.getSession();
+					hs.setAttribute("usuario", us);
+					response.sendRedirect("usuarios.jsp?ced=" + us.getCedula_usuario());
 				
 				}
 				

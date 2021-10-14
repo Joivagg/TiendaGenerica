@@ -11,8 +11,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.http.Part;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
+
 import modelo.ProductoDAO;
 
 /**
@@ -44,15 +46,18 @@ public class Producto extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
+		// doGet(request, response);
 		Part archivo = request.getPart("archivo");
 		String home = System.getProperty("user.home");
-		String Url = home.replace("\\", "\\\\") + "\\\\git\\\\repository\\\\tg\\\\TiendaGenerica\\\\src\\\\main\\\\webapp\\\\docs\\\\";
+		//String Url = home.replace("\\", "\\\\") + "\\\\git\\\\repository\\\\tg\\\\TiendaGenerica\\\\src\\\\main\\\\webapp\\\\docs\\\\";
+		String url = home.replace("\\", "\\\\") + "\\\\AppData\\\\Local\\\\Temp\\\\";
+
 		if (request.getParameter("cargar") != null) {
+			HttpSession hs = request.getSession();
+			hs.setAttribute("mensaje", "");
 			try {
 				InputStream file = archivo.getInputStream();
-				JOptionPane.showMessageDialog(null, Url);
-				File copia = new File(Url + "listaproductos.csv");
+				File copia = new File(url + "listaproductos.csv");
 				FileOutputStream escribir = new FileOutputStream(copia);
 				int num = file.read();
 				while(num != -1) {
@@ -62,20 +67,22 @@ public class Producto extends HttpServlet {
 				file.close();
 				escribir.close();
 				boolean x;
-				JOptionPane.showMessageDialog(null, "se cargo el archivo con exito);");
 				ProductoDAO prodao = new ProductoDAO();
-				x = prodao.cargarproductos(Url+"listaproductos.csv");
+				x = prodao.cargarproductos(url+"listaproductos.csv");
 				if (x) {
-					JOptionPane.showMessageDialog(null, "Datos cargados en la bd");
+					hs.setAttribute("mensaje", hs.getAttribute("mensaje") + "\nDatos cargados en la bd");
+					//JOptionPane.showMessageDialog(null, "Datos cargados en la bd");
 					response.sendRedirect("productos.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "No se cargaron los productos en la bd");
+					hs.setAttribute("mensaje", hs.getAttribute("mensaje") + "\nNo se cargaron los productos en la bd");
+					//JOptionPane.showMessageDialog(null, "No se cargaron los productos en la bd");
 					response.sendRedirect("productos.jsp");
 				}
 			} catch (Exception e) {
 				// TODO: handle exception
-				JOptionPane.showMessageDialog(null, "Error al cargar el archivo");
-				JOptionPane.showMessageDialog(null, e);
+				hs.setAttribute("mensaje", hs.getAttribute("mensaje") + "\nError al cargar el archivo" + e);
+				//JOptionPane.showMessageDialog(null, "Error al cargar el archivo");
+				//JOptionPane.showMessageDialog(null, e);
 				response.sendRedirect("productos.jsp");
 			}
 		}

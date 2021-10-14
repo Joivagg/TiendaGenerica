@@ -21,6 +21,8 @@ public class UsuarioDTO {
 		super();
 		this.cedula_usuario = cedula_usuario;
 	}
+	
+	public UsuarioDTO() { }
 
 	public int getCedula_usuario() {
 		return cedula_usuario;
