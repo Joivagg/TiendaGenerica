@@ -44,69 +44,93 @@ public class ServletGestionUsuario extends HttpServlet {
 		
 		String  n,e,u,p,cc;
 		int c;
-		boolean	y;	
+		boolean	y;
+		HttpSession hs = request.getSession();
 		if(request.getParameter("btnCrear")!=null) {
 			
-			c= Integer.parseInt(request.getParameter("cedula"));
-			n= request.getParameter("nombre");
-			e= request.getParameter("email");
-			u= request.getParameter("user");
-			p= request.getParameter("pass");
-			UsuarioDTO us = new UsuarioDTO(c, n, e, u, p);
-			UsuarioDAO usc= new UsuarioDAO();
-			y=usc.insertarUsuario(us);
-			if(y) {
-				JOptionPane.showMessageDialog(null, "El usuario fue registrado");		
-				response.sendRedirect("usuarios.jsp");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
 			} else {
-				JOptionPane.showMessageDialog(null, "El usuario no fue registrado");
-				response.sendRedirect("usuarios.jsp");
+				
+				c= Integer.parseInt(request.getParameter("cedula"));
+				n= request.getParameter("nombre");
+				e= request.getParameter("email");
+				u= request.getParameter("user");
+				p= request.getParameter("pass");
+				UsuarioDTO us = new UsuarioDTO(c, n, e, u, p);
+				UsuarioDAO usc= new UsuarioDAO();
+				y=usc.insertarUsuario(us);
+				if(y) {
+					JOptionPane.showMessageDialog(null, "El usuario fue registrado");		
+					response.sendRedirect("usuarios.jsp");
+				} else {
+					JOptionPane.showMessageDialog(null, "El usuario no fue registrado");
+					response.sendRedirect("usuarios.jsp");
+				}
+				
 			}
 			
 		}
 		
 		if(request.getParameter("btnModificar")!=null) {
 			
-			c= Integer.parseInt(request.getParameter("cedula"));
-			n= request.getParameter("nombre");
-			e= request.getParameter("email");
-			u= request.getParameter("user");
-			p= request.getParameter("pass");
-			UsuarioDTO us = new UsuarioDTO(c, n, e, u, p);
-			UsuarioDAO usc= new UsuarioDAO();
-			y=usc.modificarUsuario(us);
-			if(y) {
-				JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
-				response.sendRedirect("usuarios.jsp");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
 			} else {
-				JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
-				response.sendRedirect("usuarios.jsp");
+				
+				c= Integer.parseInt(request.getParameter("cedula"));
+				n= request.getParameter("nombre");
+				e= request.getParameter("email");
+				u= request.getParameter("user");
+				p= request.getParameter("pass");
+				UsuarioDTO us = new UsuarioDTO(c, n, e, u, p);
+				UsuarioDAO usc= new UsuarioDAO();
+				y=usc.modificarUsuario(us);
+				if(y) {
+					JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
+					response.sendRedirect("usuarios.jsp");
+				} else {
+					JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
+					response.sendRedirect("usuarios.jsp");
+				}
+				
 			}
 			
 		}
 		
 		if (request.getParameter("btnConsultar") != null) {
 			
-			cc = request.getParameter("cedulab");
-			UsuarioDAO usc = new UsuarioDAO();
-			if (cc.isBlank()) {
+			if((String)hs.getAttribute("username") == null) {
 				
-				response.sendRedirect("usuarios.jsp");					
-								
+				response.sendRedirect("index.jsp");
+				
 			} else {
 				
-				if (!usc.verificarUsuario(cc)) {
+				cc = request.getParameter("cedulab");
+				UsuarioDAO usc = new UsuarioDAO();
+				if (cc.isBlank()) {
 					
-					JOptionPane.showMessageDialog(null, "El usuario no está registrado");
-					response.sendRedirect("usuarios.jsp");
-					
+					response.sendRedirect("usuarios.jsp");					
+									
 				} else {
-				
-					UsuarioDTO us = usc.consultarUsuario(Integer.parseInt(cc));
-					HttpSession hs = request.getSession();
-					hs.setAttribute("usuario", us);
-					response.sendRedirect("usuarios.jsp?ced=" + us.getCedula_usuario());
-				
+					
+					if (!usc.verificarUsuario(cc)) {
+						
+						JOptionPane.showMessageDialog(null, "El usuario no está registrado");
+						response.sendRedirect("usuarios.jsp");
+						
+					} else {
+					
+						UsuarioDTO us = usc.consultarUsuario(Integer.parseInt(cc));
+						hs.setAttribute("usuario", us);
+						response.sendRedirect("usuarios.jsp?ced=" + us.getCedula_usuario());
+					
+					}
+					
 				}
 				
 			}
@@ -114,16 +138,25 @@ public class ServletGestionUsuario extends HttpServlet {
 		}
 		
 		if (request.getParameter("btnEliminar") != null) {
-			c= Integer.parseInt(request.getParameter("cedula"));
-			UsuarioDTO us = new UsuarioDTO(c);
-			UsuarioDAO usc= new UsuarioDAO();
-			y=usc.eliminarUsuario(us);
-			if (y) {
-				JOptionPane.showMessageDialog(null, "El usuario fue eliminado");		
-				response.sendRedirect("usuarios.jsp");
+			
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
 			} else {
-				JOptionPane.showMessageDialog(null, "El usuario no fue eliminado ");
-				response.sendRedirect("usuarios.jsp");
+				
+				c= Integer.parseInt(request.getParameter("cedula"));
+				UsuarioDTO us = new UsuarioDTO(c);
+				UsuarioDAO usc= new UsuarioDAO();
+				y=usc.eliminarUsuario(us);
+				if (y) {
+					JOptionPane.showMessageDialog(null, "El usuario fue eliminado");		
+					response.sendRedirect("usuarios.jsp");
+				} else {
+					JOptionPane.showMessageDialog(null, "El usuario no fue eliminado ");
+					response.sendRedirect("usuarios.jsp");
+				}
+				
 			}
 			
 		}

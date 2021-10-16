@@ -45,56 +45,87 @@ public class ServletGestionProducto extends HttpServlet {
 		int cod, nit;
 		double prec, iva, prev;
 		boolean y;
+		HttpSession hs = request.getSession();
 		if(request.getParameter("btnCrear")!=null) {
 			
-			cod= Integer.parseInt(request.getParameter("codigo"));
-			nom= request.getParameter("nombre");
-			nit= Integer.parseInt(request.getParameter("nit"));
-			prec= Double.parseDouble(request.getParameter("preciob"));
-			iva= Double.parseDouble(request.getParameter("iva"));
-			prev= Double.parseDouble(request.getParameter("precion"));
-			ProductoDTO pr = new ProductoDTO(cod, nom, nit, prec, iva, prev);
-			ProductoDAO prc= new ProductoDAO();
-			y=prc.insertarProducto(pr);
-			if(y) {
-				JOptionPane.showMessageDialog(null, "El producto fue registrado");		
-				response.sendRedirect("productos.jsp");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
 			} else {
-				JOptionPane.showMessageDialog(null, "El producto no fue registrado");
-				response.sendRedirect("productos.jsp");
+				
+				cod= Integer.parseInt(request.getParameter("codigo"));
+				nom= request.getParameter("nombre");
+				nit= Integer.parseInt(request.getParameter("nit"));
+				prec= Double.parseDouble(request.getParameter("preciob"));
+				iva= Double.parseDouble(request.getParameter("iva"));
+				prev= Double.parseDouble(request.getParameter("precion"));
+				ProductoDTO pr = new ProductoDTO(cod, nom, nit, prec, iva, prev);
+				ProductoDAO prc= new ProductoDAO();
+				y=prc.insertarProducto(pr);
+				if(y) {
+					JOptionPane.showMessageDialog(null, "El producto fue registrado");		
+					response.sendRedirect("productos.jsp");
+				} else {
+					JOptionPane.showMessageDialog(null, "El producto no fue registrado");
+					response.sendRedirect("productos.jsp");
+				}
+				
 			}
 			
 		}
 		
 		if(request.getParameter("btnCargar")!=null) {
 			
-			response.sendRedirect("subirproductos.jsp");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
+			} else {
+				
+				response.sendRedirect("subirproductos.jsp");
+				
+			}
 			
 		}
 		
 		if(request.getParameter("btnModificar")!=null) {
 			
-			cod= Integer.parseInt(request.getParameter("codigo"));
-			nom= request.getParameter("nombre");
-			nit= Integer.parseInt(request.getParameter("nit"));
-			prec= Double.parseDouble(request.getParameter("preciob"));
-			iva= Double.parseDouble(request.getParameter("iva"));
-			prev = Double.parseDouble(request.getParameter("precion"));
-			ProductoDTO pr = new ProductoDTO(cod, nom, nit, prec, iva, prev);
-			ProductoDAO prc= new ProductoDAO();
-			y=prc.modificarProducto(pr);
-			if(y) {
-				JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
-				response.sendRedirect("productos.jsp");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
 			} else {
-				JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
-				response.sendRedirect("productos.jsp");
+				
+				cod= Integer.parseInt(request.getParameter("codigo"));
+				nom= request.getParameter("nombre");
+				nit= Integer.parseInt(request.getParameter("nit"));
+				prec= Double.parseDouble(request.getParameter("preciob"));
+				iva= Double.parseDouble(request.getParameter("iva"));
+				prev = Double.parseDouble(request.getParameter("precion"));
+				ProductoDTO pr = new ProductoDTO(cod, nom, nit, prec, iva, prev);
+				ProductoDAO prc= new ProductoDAO();
+				y=prc.modificarProducto(pr);
+				if(y) {
+					JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
+					response.sendRedirect("productos.jsp");
+				} else {
+					JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
+					response.sendRedirect("productos.jsp");
+				}
+				
 			}
 			
 		}
 		
 		if (request.getParameter("btnConsultar") != null) {
 			
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
+			} else {
+				
 			codb = request.getParameter("codigob");
 			ProductoDAO prc = new ProductoDAO();
 			if (codb.isBlank()) {
@@ -103,18 +134,19 @@ public class ServletGestionProducto extends HttpServlet {
 								
 			} else {
 				
-				if (!prc.verificarProducto(codb)) {
+					if (!prc.verificarProducto(codb)) {
+						
+						JOptionPane.showMessageDialog(null, "El producto no está registrado");
+						response.sendRedirect("productos.jsp");
+						
+					} else {
 					
-					JOptionPane.showMessageDialog(null, "El producto no está registrado");
-					response.sendRedirect("productos.jsp");
+						ProductoDTO pr = prc.consultarProducto(Integer.parseInt(codb));
+						hs.setAttribute("producto", pr);
+						response.sendRedirect("productos.jsp?cod=" + pr.getCodigoProducto());
 					
-				} else {
-				
-					ProductoDTO pr = prc.consultarProducto(Integer.parseInt(codb));
-					HttpSession hs = request.getSession();
-					hs.setAttribute("producto", pr);
-					response.sendRedirect("productos.jsp?cod=" + pr.getCodigoProducto());
-				
+					}
+					
 				}
 				
 			}
@@ -122,19 +154,29 @@ public class ServletGestionProducto extends HttpServlet {
 		}
 		
 		if (request.getParameter("btnEliminar") != null) {
-			cod= Integer.parseInt(request.getParameter("codigo"));
-			ProductoDTO pr = new ProductoDTO(cod);
-			ProductoDAO prc= new ProductoDAO();
-			y=prc.eliminarProducto(pr);
-			if (y) {
-				JOptionPane.showMessageDialog(null, "El producto fue eliminado");		
-				response.sendRedirect("productos.jsp");
+			
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
 			} else {
-				JOptionPane.showMessageDialog(null, "El producto no fue eliminado");
-				response.sendRedirect("productos.jsp");
+				
+				cod= Integer.parseInt(request.getParameter("codigo"));
+				ProductoDTO pr = new ProductoDTO(cod);
+				ProductoDAO prc= new ProductoDAO();
+				y=prc.eliminarProducto(pr);
+				if (y) {
+					JOptionPane.showMessageDialog(null, "El producto fue eliminado");		
+					response.sendRedirect("productos.jsp");
+				} else {
+					JOptionPane.showMessageDialog(null, "El producto no fue eliminado");
+					response.sendRedirect("productos.jsp");
+				}
+				
 			}
 			
 		}
+		
 	}
 
 }

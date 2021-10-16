@@ -86,6 +86,10 @@
                 </label>
                 <button type="submit" name="btnConsultar">Consultar</button>
             </form>
+	        <%
+	        ProveedorDAO prc = new ProveedorDAO();
+	        if (request.getParameter("nit") == null) {
+			%>
             <table class="tabla">
             	<thead>
                 	<tr>
@@ -97,40 +101,18 @@
                 	</tr>
                 </thead>
                 <tbody>
-	                <%
-	                ProveedorDAO prc = new ProveedorDAO();
-	                if (request.getParameter("nit") == null) {
-	                	
-	                	ArrayList<ProveedorDTO> registro = prc.listadoProveedor();
-	               		for(int i = 0; i < registro.size(); i++) {
-	                	                	                		
-	                		ProveedorDTO data = registro.get(i);
-	                %>
-                    <tr>
-                        <td><%= data.getNitProveedor() %></td>
-                        <td><%= data.getNombreProveedor() %></td>
-                        <td><%= data.getDireccionProveedor() %></td>
-                        <td><%= data.getTelefonoProveedor() %></td>
-                        <td><%= data.getCiudadProveedor() %></td>
-                    </tr>
-                    <%
-                    	}
-	               	
-	                } else {
-	                	
-					%>
 					<tr>
-						<td><%= request.getParameter("nit") %></td>
-						<td><%= request.getParameter("nom") %></td>
-						<td><%= request.getParameter("dir") %></td>
-                        <td><%= request.getParameter("tel") %></td>
-                        <td><%= request.getParameter("ciu") %></td>
+						<td>${proveedor.getNitProveedor()}</td>
+						<td>${proveedor.getNombreProveedor()}</td>
+						<td>${proveedor.getDireccionProveedor()}</td>
+                        <td>${proveedor.getTelefonoProveedor()}</td>
+                        <td>${proveedor.getCiudadProveedor()}</td>
                     </tr>
-					<%
-	                }
-					%>
                 </tbody>
             </table>
+			<%
+	        }
+			%>
         </fieldset>
     </header>
 </body>

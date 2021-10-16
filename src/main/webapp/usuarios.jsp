@@ -12,10 +12,6 @@
 	<link rel="stylesheet" href="css/Usuarios.css">
 </head>
 <body>
-	<%
-	Conexion con= new Conexion();
-	con.conexiondb();
-	%>
 	<header class="cont-header" id="cont-header">
     	<div class="logo-titulo" id="logo-titulo">
     		<h1 class="h1" id="h1">TIENDA GENERICA</h1>
@@ -86,6 +82,10 @@
                 </label>
                 <button type="submit" name="btnConsultar">Consultar</button>
             </form>
+            <%
+            UsuarioDAO usu = new UsuarioDAO();
+            if (request.getParameter("ced") != null) {
+			%>
             <table class="tabla">
                 <thead>
                 	<tr>
@@ -93,44 +93,20 @@
                     	<th>Nombre</th>
                     	<th>Correo</th>
                     	<th>Usuario</th>
-                    	<th>Contraseña</th>
                 	</tr>
                 </thead>
                 <tbody>
-	                <%
-	                UsuarioDAO usu = new UsuarioDAO();
-	                if (request.getParameter("ced") == null) {
-	                	
-	                	ArrayList<UsuarioDTO> registro = usu.listadoUsuario();
-	               		for(int i = 0; i < registro.size(); i++) {
-	                	                	                		
-	                		UsuarioDTO data = registro.get(i);
-	                %>
-                    <tr>
-                        <td><%= data.getCedula_usuario() %></td>
-                        <td><%= data.getNombre_usuario() %></td>
-                        <td><%= data.getEmail_usuario() %></td>
-                        <td><%= data.getUsuario() %></td>
-                        <td><%= data.getPassword() %></td>
-                    </tr>
-                    <%
-                    	}
-	               	
-	                } else {
-	                	
-					%>
 					<tr>
 						<td>${usuario.getCedula_usuario()}</td>
 						<td>${usuario.getNombre_usuario()}</td>
 						<td>${usuario.getEmail_usuario()}</td>
                         <td>${usuario.getUsuario()}</td>
-                        <td>${usuario.getPassword()}</td>
                     </tr>
-					<%
-	                }
-					%>
                 </tbody>
             </table>
+			<%
+	        }
+			%>
         </fieldset>
     </header>
 </body>

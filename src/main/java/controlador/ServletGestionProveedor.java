@@ -6,6 +6,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.swing.JOptionPane;
 
 import modelo.ProveedorDTO;
@@ -43,71 +44,93 @@ public class ServletGestionProveedor extends HttpServlet {
 		
 		String  n,d,t,c,nt;
 		int nit;
-		boolean	y;	
+		boolean	y;
+		HttpSession hs = request.getSession();
 		if(request.getParameter("btnCrear")!=null) {
 			
-			nit= Integer.parseInt(request.getParameter("nit"));
-			n= request.getParameter("nombre");
-			d= request.getParameter("direccion");
-			t= request.getParameter("telefono");
-			c= request.getParameter("ciudad");
-			ProveedorDTO pr = new ProveedorDTO(nit, n, d, t, c);
-			ProveedorDAO prc= new ProveedorDAO();
-			y=prc.insertarProveedor(pr);
-			if(y) {
-				JOptionPane.showMessageDialog(null, "El proveedor fue registrado");		
-				response.sendRedirect("proveedores.jsp");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
 			} else {
-				JOptionPane.showMessageDialog(null, "El proveedor no fue registrado");
-				response.sendRedirect("proveedores.jsp");
+				
+				nit= Integer.parseInt(request.getParameter("nit"));
+				n= request.getParameter("nombre");
+				d= request.getParameter("direccion");
+				t= request.getParameter("telefono");
+				c= request.getParameter("ciudad");
+				ProveedorDTO pr = new ProveedorDTO(nit, n, d, t, c);
+				ProveedorDAO prc= new ProveedorDAO();
+				y=prc.insertarProveedor(pr);
+				if(y) {
+					JOptionPane.showMessageDialog(null, "El proveedor fue registrado");		
+					response.sendRedirect("proveedores.jsp");
+				} else {
+					JOptionPane.showMessageDialog(null, "El proveedor no fue registrado");
+					response.sendRedirect("proveedores.jsp");
+				}
+				
 			}
 			
 		}
 		
 		if(request.getParameter("btnModificar")!=null) {
 			
-			nit= Integer.parseInt(request.getParameter("nit"));
-			n= request.getParameter("nombre");
-			d= request.getParameter("direccion");
-			t= request.getParameter("telefono");
-			c= request.getParameter("ciudad");
-			ProveedorDTO pr = new ProveedorDTO(nit, n, d, t, c);
-			ProveedorDAO prc= new ProveedorDAO();
-			y=prc.modificarProveedor(pr);
-			if(y) {
-				JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
-				response.sendRedirect("proveedores.jsp");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
 			} else {
-				JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
-				response.sendRedirect("proveedores.jsp");
+				
+				nit= Integer.parseInt(request.getParameter("nit"));
+				n= request.getParameter("nombre");
+				d= request.getParameter("direccion");
+				t= request.getParameter("telefono");
+				c= request.getParameter("ciudad");
+				ProveedorDTO pr = new ProveedorDTO(nit, n, d, t, c);
+				ProveedorDAO prc= new ProveedorDAO();
+				y=prc.modificarProveedor(pr);
+				if(y) {
+					JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
+					response.sendRedirect("proveedores.jsp");
+				} else {
+					JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
+					response.sendRedirect("proveedores.jsp");
+				}
+				
 			}
 			
 		}
 		
 		if (request.getParameter("btnConsultar") != null) {
 			
-			nt = request.getParameter("nitb");
-			ProveedorDAO prc = new ProveedorDAO();
-			if (nt.isBlank()) {
+			if((String)hs.getAttribute("username") == null) {
 				
-				response.sendRedirect("proveedores.jsp");					
-								
+				response.sendRedirect("index.jsp");
+				
 			} else {
 				
-				if (!prc.verificarProveedor(nt)) {
+				nt = request.getParameter("nitb");
+				ProveedorDAO prc = new ProveedorDAO();
+				if (nt.isBlank()) {
 					
-					JOptionPane.showMessageDialog(null, "El proveedor no está registrado");
-					response.sendRedirect("proveedores.jsp");
-					
+					response.sendRedirect("proveedores.jsp");					
+									
 				} else {
-				
-					ProveedorDTO pr = prc.consultarProveedor(Integer.parseInt(nt));
-					response.sendRedirect("proveedores.jsp?nit=" + pr.getNitProveedor()
-								 + "&&nom=" + pr.getNombreProveedor()
-								 + "&&dir=" + pr.getDireccionProveedor()
-								 + "&&tel=" + pr.getTelefonoProveedor() 
-								 + "&&ciu=" + pr.getCiudadProveedor());
-				
+					
+					if (!prc.verificarProveedor(nt)) {
+						
+						JOptionPane.showMessageDialog(null, "El proveedor no está registrado");
+						response.sendRedirect("proveedores.jsp");
+						
+					} else {
+					
+						ProveedorDTO pr = prc.consultarProveedor(Integer.parseInt(nt));
+						hs.setAttribute("proveedor", pr);
+						response.sendRedirect("proveedores.jsp?nit=" + pr.getNitProveedor());
+					
+					}
+					
 				}
 				
 			}
@@ -115,16 +138,25 @@ public class ServletGestionProveedor extends HttpServlet {
 		}
 		
 		if (request.getParameter("btnEliminar") != null) {
-			nit= Integer.parseInt(request.getParameter("nit"));
-			ProveedorDTO pr = new ProveedorDTO(nit);
-			ProveedorDAO prc= new ProveedorDAO();
-			y=prc.elminarProveedor(pr);
-			if (y) {
-				JOptionPane.showMessageDialog(null, "El proveedor fue eliminado");		
-				response.sendRedirect("proveedores.jsp");
+			
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
 			} else {
-				JOptionPane.showMessageDialog(null, "El proveedor no fue eliminado");
-				response.sendRedirect("proveedores.jsp");
+				
+				nit= Integer.parseInt(request.getParameter("nit"));
+				ProveedorDTO pr = new ProveedorDTO(nit);
+				ProveedorDAO prc= new ProveedorDAO();
+				y=prc.elminarProveedor(pr);
+				if (y) {
+					JOptionPane.showMessageDialog(null, "El proveedor fue eliminado");		
+					response.sendRedirect("proveedores.jsp");
+				} else {
+					JOptionPane.showMessageDialog(null, "El proveedor no fue eliminado");
+					response.sendRedirect("proveedores.jsp");
+				}
+				
 			}
 			
 		}

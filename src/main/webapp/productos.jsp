@@ -22,7 +22,7 @@
             <div class="logo" id="logo"></div>
         </div>
         <!-- <label for="">
-         	<input type="text" name="mensjae" value="${mensaje}" readonly="readonly">
+         	<input type="text" name="mensaje" value="${mensaje}" readonly="readonly">
         </label> -->
         <nav class="nav">
             <ul>
@@ -96,6 +96,10 @@
                 </label>
                 <button type="submit" name="btnConsultar">Consultar</button>
             </form>
+	        <%
+	        ProductoDAO pro = new ProductoDAO();
+	        if (request.getParameter("cod") == null) {
+			%>
             <table class="tabla">
                 <thead>
                 	<tr>
@@ -108,29 +112,6 @@
                 	</tr>
                 </thead>
                 <tbody>
-	                <%
-	                ProductoDAO pro = new ProductoDAO();
-	                if (request.getParameter("cod") == null) {
-	                	
-	                	ArrayList<ProductoDTO> registro = pro.listadoProducto();
-	               		for(int i = 0; i < registro.size(); i++) {
-	                	                	                		
-	                		ProductoDTO data = registro.get(i);
-	                %>
-                    <tr>
-                        <td><%= data.getCodigoProducto() %></td>
-                        <td><%= data.getNombreProducto() %></td>
-                        <td><%= data.getNitProveedor() %></td>
-                        <td><%= data.getPrecioCompra() %></td>
-                        <td><%= data.getIvaCompra() %></td>
-                        <td><%= data.getPrecioVenta() %></td>
-                    </tr>
-                    <%
-                    	}
-	               	
-	                } else {
-	                	
-					%>
 					<tr>
 						<td>${producto.getCodigoProducto()}</td>
 						<td>${producto.getNombreProducto()}</td>
@@ -139,11 +120,11 @@
                         <td>${producto.getIvaCompra()}</td>
                         <td>${producto.getPrecioVenta()}</td>
                     </tr>
-					<%
-	                }
-					%>
                 </tbody>
             </table>
+			<%
+	        }
+			%>
         </fieldset>
     </header>
 </body>

@@ -9,10 +9,6 @@
 	<link rel="stylesheet" href="css/Login.css">
 </head>
 <body>
-	<%
-	Conexion con= new Conexion();
-	con.conexiondb();
-	%>
 	<header class="contenido">
         <fieldset>
 			<legend>BIENVENIDOS A LA TIENDA GENERICA</legend>

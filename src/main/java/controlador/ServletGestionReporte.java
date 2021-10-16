@@ -40,50 +40,114 @@ public class ServletGestionReporte extends HttpServlet {
 		HttpSession hs = request.getSession();
 		if(request.getParameter("mostrarUsuarios") != null) {
 			
-			response.sendRedirect("reportes.jsp?tabla=usuarios");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
+			} else {
+				
+				response.sendRedirect("reportes.jsp?tabla=usuarios");
+				
+			}
 			
 		}
 		
 		if(request.getParameter("mostrarClientes") != null) {
 			
-			response.sendRedirect("reportes.jsp?tabla=clientes");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
+			} else {
+				
+				response.sendRedirect("reportes.jsp?tabla=clientes");
+			
+			}
 			
 		}
 		
 		if(request.getParameter("mostrarProveedores") != null) {
 			
-			response.sendRedirect("reportes.jsp?tabla=proveedores");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
+			} else {
+				
+				response.sendRedirect("reportes.jsp?tabla=proveedores");
+				
+			}
 			
 		}
 		
 		if(request.getParameter("mostrarProductos") != null) {
 			
-			response.sendRedirect("reportes.jsp?tabla=productos");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
+			} else {
+				
+				response.sendRedirect("reportes.jsp?tabla=productos");
+				
+			}
 			
 		}
 		
 		if(request.getParameter("mostrarVentas") != null) {
 			
-			response.sendRedirect("reportes.jsp?tabla=ventas");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
+			} else {
+				
+				response.sendRedirect("reportes.jsp?tabla=ventas");
+				
+			}
 			
 		}
 		
 		if(request.getParameter("mostrarDetalles") != null) {
 			
-			hs.setAttribute("venta", request.getParameter("mostrarDetalles"));
-			response.sendRedirect("reportes.jsp?tabla=reportes");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
+			} else {
+				
+				hs.setAttribute("venta", request.getParameter("mostrarDetalles"));
+				response.sendRedirect("reportes.jsp?tabla=reportes");
+				
+			}
 			
 		}
 		
 		if(request.getParameter("regresar") != null) {
 			
-			response.sendRedirect("reportes.jsp");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
+			} else {
+				
+				response.sendRedirect("reportes.jsp");
+				
+			}
 			
 		}
 		
 		if(request.getParameter("regresarVenta") != null) {
 			
-			response.sendRedirect("reportes.jsp?tabla=ventas");
+			if((String)hs.getAttribute("username") == null) {
+				
+				response.sendRedirect("index.jsp");
+				
+			} else {
+				
+				response.sendRedirect("reportes.jsp?tabla=ventas");
+				
+			}
 			
 		}
 		

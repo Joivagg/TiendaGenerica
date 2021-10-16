@@ -86,6 +86,10 @@
                 </label>
                 <button type="submit" name="btnConsultar">Consultar</button>
             </form>
+            <%
+	        ClienteDAO clc = new ClienteDAO();
+	        if (request.getParameter("ced") == null) {
+			%>
             <table class="tabla">
             	<thead>
                 	<tr>
@@ -97,40 +101,18 @@
                 	</tr>
                 </thead>
                 <tbody>
-	                <%
-	                ClienteDAO clc = new ClienteDAO();
-	                if (request.getParameter("ced") == null) {
-	                	
-	                	ArrayList<ClienteDTO> registro = clc.listadoCliente();
-	               		for(int i = 0; i < registro.size(); i++) {
-	                	                	                		
-	                		ClienteDTO data = registro.get(i);
-	                %>
-                    <tr>
-                        <td><%= data.getCedulaCliente() %></td>
-                        <td><%= data.getNombreCliente() %></td>
-                        <td><%= data.getDireccionCliente() %></td>
-                        <td><%= data.getTelefonoCliente() %></td>
-                        <td><%= data.getEmailCliente() %></td>
-                    </tr>
-                    <%
-                    	}
-	               	
-	                } else {
-	                	
-					%>
 					<tr>
-						<td><%= request.getParameter("ced") %></td>
-						<td><%= request.getParameter("nom") %></td>
-						<td><%= request.getParameter("dir") %></td>
-                        <td><%= request.getParameter("tel") %></td>
-                        <td><%= request.getParameter("ema") %></td>
+						<td>${cliente.getCedulaCliente()}</td>
+						<td>${cliente.getNombreCliente()}</td>
+						<td>${cliente.getDireccionCliente()}</td>
+                        <td>${cliente.getTelefonoCliente()}</td>
+                        <td>${cliente.getCorreoCliente()}</td>
                     </tr>
-					<%
-	                }
-					%>
                 </tbody>
             </table>
+			<%
+	        }
+			%>
         </fieldset>
     </header>
 </body>
