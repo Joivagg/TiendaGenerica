@@ -102,7 +102,7 @@ public class ServletGestionUsuario extends HttpServlet {
 					
 				} else {
 				
-					UsuarioDTO us = usc.consultarUsuario();
+					UsuarioDTO us = usc.consultarUsuario(Integer.parseInt(cc));
 					HttpSession hs = request.getSession();
 					hs.setAttribute("usuario", us);
 					response.sendRedirect("usuarios.jsp?ced=" + us.getCedula_usuario());

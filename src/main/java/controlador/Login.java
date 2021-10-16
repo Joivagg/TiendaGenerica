@@ -47,11 +47,10 @@ public class Login extends HttpServlet {
 					
 				} else {
 				
-					UsuarioDTO us = usc.consultarUsuario();
+					UsuarioDTO us = usc.consultarUsuario(u);
 					ms.setAttribute("cedUsuario", us.getCedula_usuario());
 				
 				}
-				JOptionPane.showMessageDialog(null, ms.getAttribute("cedUsuario"));
 				response.sendRedirect("usuarios.jsp");
 			} else {
 				JOptionPane.showMessageDialog(null, "Datos incorrectos");

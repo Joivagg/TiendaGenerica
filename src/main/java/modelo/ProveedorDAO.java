@@ -12,12 +12,12 @@ public class ProveedorDAO {
 	
 	Conexion con= new Conexion();
 	Connection cnn= con.conexiondb();
-	PreparedStatement ps;
-	ResultSet rs;
 	ArrayList<ProveedorDTO> registro = new ArrayList<>();
 	
 	public ArrayList<ProveedorDTO> listadoProveedor() {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		registro.clear();
         
 		try {
@@ -35,6 +35,9 @@ public class ProveedorDAO {
                 
             }
             
+			rs.close();
+            ps.close();
+            
         } catch (SQLException e) {
             
             e.printStackTrace();
@@ -46,6 +49,8 @@ public class ProveedorDAO {
 	}
 	
 	public boolean insertarProveedor(ProveedorDTO pr) {
+		
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -61,6 +66,8 @@ public class ProveedorDAO {
 				dato=true;
 			}
 			
+			ps.close();
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -70,6 +77,8 @@ public class ProveedorDAO {
 	}
 	
 	public boolean modificarProveedor(ProveedorDTO pr) {
+		
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -84,6 +93,8 @@ public class ProveedorDAO {
             if (x>0) {
 				dato=true;
 			}
+            
+            ps.close();
 
         } catch (SQLException e) {
 
@@ -95,12 +106,17 @@ public class ProveedorDAO {
 	
 	public boolean verificarProveedor(String nit) {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		try {
 			
 			ps = cnn.prepareStatement("SELECT * FROM proveedores WHERE nitproveedor = ?");
 			ps.setInt(1, Integer.parseInt(nit));
 			rs = ps.executeQuery();
-			return rs.next();
+			boolean resObt = rs.next();
+			rs.close();
+            ps.close();
+			return resObt;
 			
 		} catch (SQLException e) {
 			
@@ -111,31 +127,44 @@ public class ProveedorDAO {
 		
 	}
 	
-	public ProveedorDTO consultarProveedor() {
+	public ProveedorDTO consultarProveedor(int nit) {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		registro.clear();
-		
+        
 		try {
-        	
-            ProveedorDTO data = new ProveedorDTO(rs.getInt(1),
+    		
+        	ps = cnn.prepareStatement("SELECT * FROM proveedores WHERE nitproveedor=?");
+        	ps.setInt(1, nit);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                
+                ProveedorDTO data = new ProveedorDTO(rs.getInt(1),
                 						   rs.getString(2),
                 						   rs.getString(3),
                 						   rs.getString(4),
                 						   rs.getString(5));
+                registro.add(data);
                 
-            registro.add(data);
+            }
+            
+			rs.close();
+            ps.close();
             
         } catch (SQLException e) {
             
             e.printStackTrace();
             
         }
-		
-		return registro.get(0);
+        
+        return registro.get(0);
 		
 	}
 	
 	public boolean elminarProveedor(ProveedorDTO pr) {
+		
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -146,6 +175,8 @@ public class ProveedorDAO {
 			if(x>0)	{
 				dato=true;
 			}
+			
+			ps.close();
 			
 		} catch (SQLException e) {
 			

@@ -28,7 +28,7 @@
                 <li><a href="#">Proveedores</a></li>
                 <li><a href="productos.jsp">Productos</a></li>
                 <li><a href="ventas.jsp">Ventas</a></li>
-                <li><a href="#">Reportes</a></li>
+                <li><a href="reportes.jsp">Reportes</a></li>
             </ul>
         </nav>
     </header>

@@ -110,7 +110,7 @@ public class ServletGestionProducto extends HttpServlet {
 					
 				} else {
 				
-					ProductoDTO pr = prc.consultarProducto();
+					ProductoDTO pr = prc.consultarProducto(Integer.parseInt(codb));
 					HttpSession hs = request.getSession();
 					hs.setAttribute("producto", pr);
 					response.sendRedirect("productos.jsp?cod=" + pr.getCodigoProducto());

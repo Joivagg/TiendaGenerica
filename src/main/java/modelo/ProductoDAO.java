@@ -14,12 +14,12 @@ public class ProductoDAO {
 	
 	Conexion con= new Conexion();
 	Connection cnn= con.conexiondb();
-	PreparedStatement ps;
-	ResultSet rs;
 	ArrayList<ProductoDTO> registro = new ArrayList<>();
 	
 	public ArrayList<ProductoDTO> listadoProducto() {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		registro.clear();
         
         try {
@@ -38,6 +38,9 @@ public class ProductoDAO {
                 
             }
             
+			rs.close();
+            ps.close();
+            
         } catch (SQLException e) {
             
             e.printStackTrace();
@@ -50,6 +53,7 @@ public class ProductoDAO {
 	
 	public boolean insertarProducto(ProductoDTO pr) {
 		
+		PreparedStatement ps;
 		int x;
 		boolean dato = false;
 		try {
@@ -66,6 +70,8 @@ public class ProductoDAO {
 				dato=true;
 			}
 			
+			ps.close();
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -76,12 +82,16 @@ public class ProductoDAO {
 	}
 	
     public boolean cargarproductos(String URL) {
-	    boolean y = false;
+	    
+    	PreparedStatement ps;
+    	boolean y = false;
 	    try {
+	    	
 	    	ps=cnn.prepareStatement("LOAD DATA INFILE '" + URL 
 	    			+ "' INTO TABLE productos FIELDS TERMINATED BY ';' LINES TERMINATED BY '\r\n';");
 		    y=ps.executeUpdate()>0;
 		    System.out.println(y);
+		    ps.close();
 		    
 	    } catch(SQLException e) {
 	    	
@@ -93,6 +103,7 @@ public class ProductoDAO {
     
 	public boolean modificarProducto(ProductoDTO pr) {
 		
+		PreparedStatement ps;
 		int x;
 		boolean dato = false;
 		try {
@@ -107,6 +118,7 @@ public class ProductoDAO {
             if (x>0) {
 				dato=true;
 			}
+            ps.close();
 
         } catch (SQLException e) {
 
@@ -119,12 +131,17 @@ public class ProductoDAO {
 	
 	public boolean verificarProducto(String codigo) {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		try {
 			
 			ps = cnn.prepareStatement("SELECT * FROM productos WHERE codigo_producto = ?");
 			ps.setInt(1, Integer.parseInt(codigo));
 			rs = ps.executeQuery();
-			return rs.next();
+			boolean resObt = rs.next();
+			rs.close();
+            ps.close();
+			return resObt;
 			
 		} catch (SQLException e) {
 			
@@ -135,33 +152,45 @@ public class ProductoDAO {
 		
 	}
 	
-	public ProductoDTO consultarProducto() {
-		
+	public ProductoDTO consultarProducto(int codigoProducto) {
+        
+		PreparedStatement ps;
+		ResultSet rs;
 		registro.clear();
 		
 		try {
         	
-            ProductoDTO data = new ProductoDTO(rs.getInt(1),
+        	ps = cnn.prepareStatement("SELECT * FROM productos WHERE codigo_producto=?");
+        	ps.setInt(1, codigoProducto);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                
+                ProductoDTO data = new ProductoDTO(rs.getInt(1),
                 						   rs.getString(2),
                 						   rs.getInt(3),
                 						   rs.getDouble(4),
                 						   rs.getDouble(5),
                 						   rs.getDouble(6));
+                registro.add(data);
                 
-            registro.add(data);
+            }
+            
+			rs.close();
+            ps.close();
             
         } catch (SQLException e) {
             
             e.printStackTrace();
             
         }
-		
-		return registro.get(0);
+        
+        return registro.get(0);
 		
 	}
 	
 	public boolean eliminarProducto(ProductoDTO pr) {
 		
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -172,6 +201,8 @@ public class ProductoDAO {
 			if(x>0)	{
 				dato=true;
 			}
+			
+			ps.close();
 			
 		} catch (SQLException e) {
 

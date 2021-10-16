@@ -78,7 +78,7 @@ public class ServletGestionVentas extends HttpServlet {
 						
 					} else {
 					
-						ClienteDTO cl = clc.consultarCliente();
+						ClienteDTO cl = clc.consultarCliente(Integer.parseInt(ced_Cli));
 						VentaDAO vec = new VentaDAO();
 						ArrayList<VentaDTO> ventas = vec.listadoVenta();
 						
@@ -153,7 +153,7 @@ public class ServletGestionVentas extends HttpServlet {
 								}
 								
 							}
-							ProductoDTO pr = prc.consultarProducto();
+							ProductoDTO pr = prc.consultarProducto(Integer.parseInt(cod_Pro));
 							codDetVen = Integer.toString((Integer)hs.getAttribute("codVenta")) + "." + cod_Pro;
 							canPro = Integer.parseInt(request.getParameter("canproducto"));
 							codPro = Integer.parseInt(cod_Pro);

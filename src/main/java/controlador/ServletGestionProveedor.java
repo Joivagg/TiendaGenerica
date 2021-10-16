@@ -101,7 +101,7 @@ public class ServletGestionProveedor extends HttpServlet {
 					
 				} else {
 				
-					ProveedorDTO pr = prc.consultarProveedor();
+					ProveedorDTO pr = prc.consultarProveedor(Integer.parseInt(nt));
 					response.sendRedirect("proveedores.jsp?nit=" + pr.getNitProveedor()
 								 + "&&nom=" + pr.getNombreProveedor()
 								 + "&&dir=" + pr.getDireccionProveedor()

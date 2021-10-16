@@ -17,7 +17,8 @@ public class Conexion {
             Class.forName("org.mariadb.jdbc.Driver");
             try {
                 
-                cnn = DriverManager.getConnection("jdbc:mysql://tiendagenericagrupo43-10-32.czo3ixoe3xoe.us-east-1.rds.amazonaws.com/tiendagenericagrupo32equipo3", "admin", "123456789");
+                // cnn = DriverManager.getConnection("jdbc:mysql://tiendagenericagrupo43-10-32.czo3ixoe3xoe.us-east-1.rds.amazonaws.com/tiendagenericagrupo32equipo3", "admin", "123456789");
+                cnn = DriverManager.getConnection("jdbc:mysql://tiendagenericagrupo43-10-32.czo3ixoe3xoe.us-east-1.rds.amazonaws.com/tiendagenericagrupo32equipo3?user=admin&password=123456789");
                 
             } catch(SQLException ex) {
                 

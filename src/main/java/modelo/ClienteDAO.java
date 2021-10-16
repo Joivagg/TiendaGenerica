@@ -12,12 +12,12 @@ public class ClienteDAO {
 	
 	Conexion con= new Conexion();
 	Connection cnn= con.conexiondb();
-	PreparedStatement ps;
-	ResultSet rs;
 	ArrayList<ClienteDTO> registro = new ArrayList<>();
 	
 	public ArrayList<ClienteDTO> listadoCliente() {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		registro.clear();
         
         try {
@@ -35,6 +35,9 @@ public class ClienteDAO {
                 
             }
             
+			rs.close();
+            ps.close();
+            
         } catch (SQLException e) {
             
             e.printStackTrace();
@@ -46,6 +49,7 @@ public class ClienteDAO {
 	}
 	
 	public boolean insertarCliente(ClienteDTO cl) {
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -61,6 +65,8 @@ public class ClienteDAO {
 				dato=true;
 			}
 			
+			ps.close();
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -70,6 +76,7 @@ public class ClienteDAO {
 	}
 	
 	public boolean modificarCliente(ClienteDTO cl) {
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -84,6 +91,8 @@ public class ClienteDAO {
             if (x>0) {
 				dato=true;
 			}
+            
+            ps.close();
 
         } catch (SQLException e) {
 
@@ -94,13 +103,17 @@ public class ClienteDAO {
 	}
 	
 	public boolean verificarCliente(String cedula) {
-		
+		PreparedStatement ps;
+		ResultSet rs;
 		try {
 			
 			ps = cnn.prepareStatement("SELECT * FROM clientes WHERE cedula_cliente = ?");
 			ps.setInt(1, Integer.parseInt(cedula));
 			rs = ps.executeQuery();
-			return rs.next();
+			boolean resObt = rs.next();
+			rs.close();
+            ps.close();
+			return resObt;
 			
 		} catch (SQLException e) {
 			
@@ -111,31 +124,44 @@ public class ClienteDAO {
 		
 	}
 	
-	public ClienteDTO consultarCliente() {
+	public ClienteDTO consultarCliente(int cedula) {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		registro.clear();
-		
-		try {
-        	
-            ClienteDTO data = new ClienteDTO(rs.getInt(1),
+        
+        try {
+        		
+        	ps = cnn.prepareStatement("SELECT * FROM clientes WHERE cedula_cliente=?");
+        	ps.setInt(1, cedula);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                
+                ClienteDTO data = new ClienteDTO(rs.getInt(1),
                 						   rs.getString(2),
                 						   rs.getString(3),
                 						   rs.getString(4),
                 						   rs.getString(5));
+                registro.add(data);
                 
-            registro.add(data);
+            }
+            
+			rs.close();
+            ps.close();
             
         } catch (SQLException e) {
             
             e.printStackTrace();
             
         }
-		
-		return registro.get(0);
+        
+        return registro.get(0);
 		
 	}
 	
 	public boolean elminarCliente(ClienteDTO cl) {
+		
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -146,6 +172,8 @@ public class ClienteDAO {
 			if(x>0)	{
 				dato=true;
 			}
+			
+			ps.close();
 			
 		} catch (SQLException e) {
 			

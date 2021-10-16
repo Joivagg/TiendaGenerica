@@ -12,12 +12,12 @@ public class VentaDAO {
 	
 	Conexion con= new Conexion();
 	Connection cnn= con.conexiondb();
-	PreparedStatement ps;
-	ResultSet rs;
 	ArrayList<VentaDTO> registro = new ArrayList<>();
 	
 	public ArrayList<VentaDTO> listadoVenta() {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		registro.clear();
         
         try {
@@ -36,6 +36,9 @@ public class VentaDAO {
                 
             }
             
+			rs.close();
+            ps.close();
+            
         } catch (SQLException e) {
             
             e.printStackTrace();
@@ -47,6 +50,8 @@ public class VentaDAO {
 	}
 	
 	public boolean insertarVenta(VentaDTO ve) {
+		
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -63,6 +68,8 @@ public class VentaDAO {
 				dato=true;
 			}
 			
+			ps.close();
+			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
@@ -72,6 +79,8 @@ public class VentaDAO {
 	}
 	
 	public boolean modificarVenta(VentaDTO ve) {
+		
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -83,6 +92,8 @@ public class VentaDAO {
             if (x>0) {
 				dato=true;
 			}
+            
+            ps.close();
 
         } catch (SQLException e) {
 
@@ -94,12 +105,17 @@ public class VentaDAO {
 	
 	public boolean verificarVenta(String codigo) {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		try {
 			
 			ps = cnn.prepareStatement("SELECT * FROM ventas WHERE codigo_venta = ?");
 			ps.setInt(1, Integer.parseInt(codigo));
 			rs = ps.executeQuery();
-			return rs.next();
+			boolean resObt = rs.next();
+			rs.close();
+            ps.close();
+			return resObt;
 			
 		} catch (SQLException e) {
 			
@@ -110,20 +126,30 @@ public class VentaDAO {
 		
 	}
 	
-	public VentaDTO consultarVenta() {
+	public VentaDTO consultarVenta(int codigo) {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		registro.clear();
-		
 		try {
         	
-            VentaDTO data = new VentaDTO(rs.getInt(1),
-                						   rs.getInt(2),
-                						   rs.getInt(3),
-                						   rs.getDouble(4),
-                						   rs.getDouble(5),
-                						   rs.getDouble(6));
-                
-            registro.add(data);
+			ps = cnn.prepareStatement("SELECT * FROM ventas WHERE codigo_venta = ?");
+			ps.setInt(1, codigo);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				
+				VentaDTO data = new VentaDTO(rs.getInt(1),
+	                						   rs.getInt(2),
+	                						   rs.getInt(3),
+	                						   rs.getDouble(4),
+	                						   rs.getDouble(5),
+	                						   rs.getDouble(6));
+	                
+	            registro.add(data);
+            
+			}
+			rs.close();
+			ps.close();
             
         } catch (SQLException e) {
             
@@ -136,6 +162,8 @@ public class VentaDAO {
 	}
 	
 	public boolean eliminarVenta(VentaDTO ve) {
+		
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -146,6 +174,8 @@ public class VentaDAO {
 			if(x>0)	{
 				dato=true;
 			}
+			
+			ps.close();
 			
 		} catch (SQLException e) {
 

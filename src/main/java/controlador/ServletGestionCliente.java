@@ -101,7 +101,7 @@ public class ServletGestionCliente extends HttpServlet {
 					
 				} else {
 				
-					ClienteDTO cl = clc.consultarCliente();
+					ClienteDTO cl = clc.consultarCliente(Integer.parseInt(cc));
 					response.sendRedirect("clientes.jsp?ced=" + cl.getCedulaCliente()
 								 + "&&nom=" + cl.getNombreCliente() 
 								 + "&&dir=" + cl.getDireccionCliente() 

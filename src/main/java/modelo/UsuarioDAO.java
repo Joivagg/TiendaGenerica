@@ -14,12 +14,12 @@ public class UsuarioDAO {
 	
 	Conexion con= new Conexion();
 	Connection cnn= con.conexiondb();
-	PreparedStatement ps;
-	ResultSet rs;
 	ArrayList<UsuarioDTO> registro = new ArrayList<>();
 	
 	public ArrayList<UsuarioDTO> listadoUsuario() {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		registro.clear();
         
         try {
@@ -37,6 +37,9 @@ public class UsuarioDAO {
                 
             }
             
+            rs.close();
+            ps.close();
+            
         } catch (SQLException e) {
             
             e.printStackTrace();
@@ -48,6 +51,8 @@ public class UsuarioDAO {
 	}
 	
 	public boolean insertarUsuario(UsuarioDTO us) {
+		
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -62,6 +67,7 @@ public class UsuarioDAO {
 			if (x>0) {
 				dato=true;
 			}
+			ps.close();
 			
 		} catch (SQLException e) {
 			
@@ -72,6 +78,8 @@ public class UsuarioDAO {
 	}
 	
 	public boolean modificarUsuario(UsuarioDTO us) {
+		
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -86,6 +94,7 @@ public class UsuarioDAO {
             if (x>0) {
 				dato=true;
 			}
+            ps.close();
 
         } catch (SQLException e) {
 
@@ -97,12 +106,17 @@ public class UsuarioDAO {
 	
 	public boolean verificarUsuario(String cedula) {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		try {
 			
 			ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE cedula_usuario = ?");
 			ps.setInt(1, Integer.parseInt(cedula));
 			rs = ps.executeQuery();
-			return rs.next();
+			boolean resObt = rs.next();
+			rs.close();
+            ps.close();
+			return resObt;
 			
 		} catch (SQLException e) {
 			
@@ -115,12 +129,17 @@ public class UsuarioDAO {
 	
 	public boolean consultarCedulaUsuario(String user) {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		try {
 			
 			ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE usuario = ?");
 			ps.setString(1, user);
 			rs = ps.executeQuery();
-			return rs.next();
+			boolean resObt = rs.next();
+			rs.close();
+            ps.close();
+			return resObt;
 			
 		} catch (SQLException e) {
 			
@@ -133,13 +152,18 @@ public class UsuarioDAO {
 	
 	public boolean verificarLogin(String user, String password) {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		try {
 			
 			ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE usuario = ? AND password = ?");
 			ps.setString(1, user);
 			ps.setString(2, password);
 			rs = ps.executeQuery();
-			return rs.next();
+			boolean resObt = rs.next();
+			rs.close();
+            ps.close();
+			return resObt;
 			
 		} catch (SQLException e) {
 			
@@ -150,31 +174,79 @@ public class UsuarioDAO {
 		
 	}
 	
-	public UsuarioDTO consultarUsuario() {
-				
-		registro.clear();
+	public UsuarioDTO consultarUsuario(int cedula) {
 		
-		try {
+		PreparedStatement ps;
+		ResultSet rs;
+		registro.clear();
+        
+        try {
         	
-            UsuarioDTO data = new UsuarioDTO(rs.getInt(1),
+        	ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE cedula_usuario=?");
+        	ps.setInt(1, cedula);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                
+                UsuarioDTO data = new UsuarioDTO(rs.getInt(1),
                 						   rs.getString(2),
                 						   rs.getString(3),
                 						   rs.getString(4),
                 						   rs.getString(5));
+                registro.add(data);
                 
-            registro.add(data);
+            }
+            
+			rs.close();
+            ps.close();
             
         } catch (SQLException e) {
             
             e.printStackTrace();
             
         }
+        
+        return registro.get(0);
 		
-		return registro.get(0);
+	}
+	
+	public UsuarioDTO consultarUsuario(String user) {
+		
+		PreparedStatement ps;
+		ResultSet rs;
+		registro.clear();
+        
+        try {
+        	
+        	ps = cnn.prepareStatement("SELECT * FROM usuarios WHERE usuario=?");
+        	ps.setString(1, user);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                
+                UsuarioDTO data = new UsuarioDTO(rs.getInt(1),
+                						   rs.getString(2),
+                						   rs.getString(3),
+                						   rs.getString(4),
+                						   rs.getString(5));
+                registro.add(data);
+                
+            }
+            
+			rs.close();
+            ps.close();
+            
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+            
+        }
+        
+        return registro.get(0);
 		
 	}
 	
 	public boolean eliminarUsuario(UsuarioDTO us) {
+		
+		PreparedStatement ps;
 		int x;
 		boolean dato=false;
 		try {
@@ -185,6 +257,8 @@ public class UsuarioDAO {
 			if(x>0)	{
 				dato=true;
 			}
+			
+			ps.close();
 			
 		} catch (SQLException e) {
 

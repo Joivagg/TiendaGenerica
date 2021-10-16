@@ -29,7 +29,7 @@
                 <li><a href="proveedores.jsp">Provedores</a></li>
                 <li><a href="productos.jsp">Productos</a></li>
                 <li><a href="#">Ventas</a></li>
-                <li><a href="#">Reportes</a></li>
+                <li><a href="reportes.jsp">Reportes</a></li>
             </ul>
         </nav>
     </header>
@@ -69,7 +69,7 @@
                 	<input type="text" name="codproducto">
                 </label>
                 <label for="" class="l1">Cantidad:
-                	<input type="text" name="canproducto">
+                	<input type="number" min="1" name="canproducto">
                 </label>
                 <button type="submit" name="btnAgregarProducto">Agregar</button>
             </form>
@@ -95,7 +95,7 @@
                     		ReporteDTO re = (ReporteDTO)canastaProductos.get(i);
                     		if(prc.verificarProducto(Integer.toString(re.getCodigoProducto()))) {
                     			
-                    			ProductoDTO pr = prc.consultarProducto();
+                    			ProductoDTO pr = prc.consultarProducto((int)re.getCodigoProducto());
                     	%>
                     	<tr>
                     		<td><%= i + 1 %></td>

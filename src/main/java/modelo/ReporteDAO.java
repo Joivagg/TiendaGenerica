@@ -14,12 +14,12 @@ public class ReporteDAO {
 	
 	Conexion con= new Conexion();
 	Connection cnn= con.conexiondb();
-	PreparedStatement ps;
-	ResultSet rs;
 	ArrayList<ReporteDTO> registro = new ArrayList<>();
 	
 	public ArrayList<ReporteDTO> listadoReporte() {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		registro.clear();
         
         try {
@@ -38,6 +38,45 @@ public class ReporteDAO {
                 registro.add(data);
                 
             }
+            rs.close();
+            ps.close();
+            
+        } catch (SQLException e) {
+            
+            e.printStackTrace();
+            
+        }
+        
+        return registro;
+		
+	}
+	
+	public ArrayList<ReporteDTO> listadoReporte(int venta) {
+		
+		PreparedStatement ps;
+		ResultSet rs;
+		registro.clear();
+        
+        try {
+        	
+        	ps = cnn.prepareStatement("SELECT * FROM detalle_ventas WHERE codigo_venta=?");
+        	ps.setInt(1, venta);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                
+                ReporteDTO data = new ReporteDTO(rs.getString(1),
+                						   rs.getInt(2),
+                						   rs.getInt(3),
+                						   rs.getInt(4),
+                						   rs.getDouble(5),
+                						   rs.getDouble(6),
+                						   rs.getDouble(7));
+                registro.add(data);
+                
+            }
+            
+			rs.close();
+            ps.close();
             
         } catch (SQLException e) {
             
@@ -51,6 +90,7 @@ public class ReporteDAO {
 	
 	public boolean insertarReporte(ReporteDTO re) {
 		
+		PreparedStatement ps;
 		int x;
 		boolean dato = false;
 		try {
@@ -68,6 +108,8 @@ public class ReporteDAO {
 				dato=true;
 			}
 			
+			ps.close();
+			
 		} catch (SQLException e) {
 			
 			JOptionPane.showMessageDialog(null, e);
@@ -79,6 +121,7 @@ public class ReporteDAO {
 	
 	public boolean modificarReporte(ReporteDTO re) {
 		
+		PreparedStatement ps;
 		int x;
 		boolean dato = false;
 		try {
@@ -93,6 +136,8 @@ public class ReporteDAO {
             if (x>0) {
 				dato=true;
 			}
+            
+            ps.close();
 
         } catch (SQLException e) {
 
@@ -105,12 +150,17 @@ public class ReporteDAO {
 	
 	public boolean verificarReporte(String codigo) {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		try {
 			
 			ps = cnn.prepareStatement("SELECT * FROM detalle_ventas WHERE codigo_detalle_venta = ?");
 			ps.setString(1, codigo);
 			rs = ps.executeQuery();
-			return rs.next();
+			boolean resObt = rs.next();
+			rs.close();
+            ps.close();
+			return resObt;
 			
 		} catch (SQLException e) {
 			
@@ -121,21 +171,31 @@ public class ReporteDAO {
 		
 	}
 	
-	public ReporteDTO consultarReporte() {
+	public ReporteDTO consultarReporte(String codigo) {
 		
+		PreparedStatement ps;
+		ResultSet rs;
 		registro.clear();
-		
 		try {
         	
-            ReporteDTO data = new ReporteDTO(rs.getString(1),
-                						   rs.getInt(2),
-                						   rs.getInt(3),
-                						   rs.getInt(4),
-                						   rs.getDouble(5),
-                						   rs.getDouble(6),
-                						   rs.getDouble(7));
-                
-            registro.add(data);
+			ps = cnn.prepareStatement("SELECT * FROM detalle_ventas WHERE codigo_detalle_venta = ?");
+			ps.setString(1, codigo);
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				
+	            ReporteDTO data = new ReporteDTO(rs.getString(1),
+	                						   rs.getInt(2),
+	                						   rs.getInt(3),
+	                						   rs.getInt(4),
+	                						   rs.getDouble(5),
+	                						   rs.getDouble(6),
+	                						   rs.getDouble(7));
+	                
+	            registro.add(data);
+            
+			}
+			rs.close();
+			ps.close();
             
         } catch (SQLException e) {
             
@@ -149,6 +209,7 @@ public class ReporteDAO {
 	
 	public boolean eliminarReporte(ReporteDTO re) {
 		
+		PreparedStatement ps;
 		int x;
 		boolean dato = false;
 		try {
@@ -159,6 +220,8 @@ public class ReporteDAO {
 			if(x>0)	{
 				dato = true;
 			}
+			
+			ps.close();
 			
 		} catch (SQLException e) {
 
