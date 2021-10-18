@@ -24,12 +24,27 @@
         </div>
         <nav class="nav">
             <ul>
+            	<%
+                if((String)hs.getAttribute("username") == null) {
+                %>
+                <li><a href="index.jsp">Usuarios</a></li>
+                <li><a href="index.jsp">Clientes</a></li>
+                <li><a href="index.jsp">Proveedores</a></li>
+                <li><a href="index.jsp">Productos</a></li>
+                <li><a href="index.jsp">Ventas</a></li>
+                <li><a href="index.jsp">Reportes</a></li>
+                <%
+                } else {
+                %>
                 <li><a href="usuarios.jsp">Usuarios</a></li>
                 <li><a href="clientes.jsp">Clientes</a></li>
-                <li><a href="proveedores.jsp">Provedores</a></li>
+                <li><a href="proveedores.jsp">Proveedores</a></li>
                 <li><a href="productos.jsp">Productos</a></li>
                 <li><a href="#">Ventas</a></li>
                 <li><a href="reportes.jsp">Reportes</a></li>
+                <%
+                }
+                %>
             </ul>
         </nav>
     </header>

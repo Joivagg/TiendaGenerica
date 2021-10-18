@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 
 import modelo.ClienteDAO;
 import modelo.ClienteDTO;
@@ -52,7 +52,6 @@ public class ServletGestionVentas extends HttpServlet {
 		int codVen, cedCli, cedUsu, canPro, codPro;
 		double valVenSum, valIvaSum, valTotSum, valVenRep, valIvaRep, valTotRep;
 		HttpSession hs = request.getSession();
-		cedUsu = (int)hs.getAttribute("cedUsuario");
 		ArrayList<ReporteDTO> canastaProductos = new ArrayList<ReporteDTO>();
 		
 		if (request.getParameter("btnConsultarCliente") != null) {
@@ -63,6 +62,7 @@ public class ServletGestionVentas extends HttpServlet {
 				
 			} else {
 				
+				cedUsu = (int)hs.getAttribute("cedUsuario");
 				ced_Cli = request.getParameter("ccliente");
 				ClienteDAO clc = new ClienteDAO();
 				if (ced_Cli.isBlank()) {
@@ -73,7 +73,7 @@ public class ServletGestionVentas extends HttpServlet {
 					
 					if (!clc.verificarCliente(ced_Cli)) {
 						
-						JOptionPane.showMessageDialog(null, "El cliente no está registrado");
+						//JOptionPane.showMessageDialog(null, "El cliente no está registrado");
 						response.sendRedirect("ventas.jsp");
 						
 					} else {
@@ -120,6 +120,7 @@ public class ServletGestionVentas extends HttpServlet {
 				
 			} else {
 				
+				cedUsu = (int)hs.getAttribute("cedUsuario");
 				cod_Pro = request.getParameter("codproducto");
 				ProductoDAO prc = new ProductoDAO();
 				ReporteDAO rec = new ReporteDAO();
@@ -131,14 +132,14 @@ public class ServletGestionVentas extends HttpServlet {
 					
 					if(!prc.verificarProducto(cod_Pro)) {
 						
-						JOptionPane.showMessageDialog(null, "El producto no está registrado");
+						//JOptionPane.showMessageDialog(null, "El producto no está registrado");
 						response.sendRedirect("ventas.jsp?cedCli=" + request.getParameter("ccliente"));
 						
 					} else {
 						
 						if(rec.verificarReporte(Integer.toString((Integer)hs.getAttribute("codVenta")) + "-" + cod_Pro)) {
 							
-							JOptionPane.showMessageDialog(null, "El producto ya fue registrado para la venta");
+							//JOptionPane.showMessageDialog(null, "El producto ya fue registrado para la venta");
 							response.sendRedirect("ventas.jsp?cedCli=" + request.getParameter("ccliente"));
 							
 						} else {
@@ -206,6 +207,7 @@ public class ServletGestionVentas extends HttpServlet {
 					rec.insertarReporte(re);
 					
 				}
+				//JOptionPane.showMessageDialog(null, "Venta registrada correctamente en la base de datos");
 				response.sendRedirect("ventas.jsp");
 			
 			}

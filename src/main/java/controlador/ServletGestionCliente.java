@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 
 import modelo.ClienteDTO;
 import modelo.ClienteDAO;
@@ -63,10 +63,10 @@ public class ServletGestionCliente extends HttpServlet {
 				ClienteDAO clc= new ClienteDAO();
 				y=clc.insertarCliente(cl);
 				if(y) {
-					JOptionPane.showMessageDialog(null, "El cliente fue registrado");		
+					//JOptionPane.showMessageDialog(null, "El cliente fue registrado");		
 					response.sendRedirect("clientes.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "El cliente no fue registrado");
+					//JOptionPane.showMessageDialog(null, "El cliente no fue registrado");
 					response.sendRedirect("clientes.jsp");
 				}
 				
@@ -91,10 +91,10 @@ public class ServletGestionCliente extends HttpServlet {
 				ClienteDAO clc= new ClienteDAO();
 				y=clc.modificarCliente(cl);
 				if(y) {
-					JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
+					//JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
 					response.sendRedirect("clientes.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
+					//JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
 					response.sendRedirect("clientes.jsp");
 				}
 				
@@ -120,7 +120,7 @@ public class ServletGestionCliente extends HttpServlet {
 					
 					if (!clc.verificarCliente(cc)) {
 						
-						JOptionPane.showMessageDialog(null, "El cliente no está registrado");
+						//JOptionPane.showMessageDialog(null, "El cliente no está registrado");
 						response.sendRedirect("clientes.jsp");
 						
 					} else {
@@ -150,10 +150,10 @@ public class ServletGestionCliente extends HttpServlet {
 				ClienteDAO clc= new ClienteDAO();
 				y=clc.elminarCliente(cl);
 				if (y) {
-					JOptionPane.showMessageDialog(null, "El cliente fue eliminado");		
+					//JOptionPane.showMessageDialog(null, "El cliente fue eliminado");		
 					response.sendRedirect("clientes.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "El cliente no fue eliminado");
+					//JOptionPane.showMessageDialog(null, "El cliente no fue eliminado");
 					response.sendRedirect("clientes.jsp");
 				}
 				

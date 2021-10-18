@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 
 import modelo.ProveedorDTO;
 import modelo.ProveedorDAO;
@@ -63,10 +63,10 @@ public class ServletGestionProveedor extends HttpServlet {
 				ProveedorDAO prc= new ProveedorDAO();
 				y=prc.insertarProveedor(pr);
 				if(y) {
-					JOptionPane.showMessageDialog(null, "El proveedor fue registrado");		
+					//JOptionPane.showMessageDialog(null, "El proveedor fue registrado");		
 					response.sendRedirect("proveedores.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "El proveedor no fue registrado");
+					//JOptionPane.showMessageDialog(null, "El proveedor no fue registrado");
 					response.sendRedirect("proveedores.jsp");
 				}
 				
@@ -91,10 +91,10 @@ public class ServletGestionProveedor extends HttpServlet {
 				ProveedorDAO prc= new ProveedorDAO();
 				y=prc.modificarProveedor(pr);
 				if(y) {
-					JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
+					//JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
 					response.sendRedirect("proveedores.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
+					//JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
 					response.sendRedirect("proveedores.jsp");
 				}
 				
@@ -120,7 +120,7 @@ public class ServletGestionProveedor extends HttpServlet {
 					
 					if (!prc.verificarProveedor(nt)) {
 						
-						JOptionPane.showMessageDialog(null, "El proveedor no está registrado");
+						//JOptionPane.showMessageDialog(null, "El proveedor no está registrado");
 						response.sendRedirect("proveedores.jsp");
 						
 					} else {
@@ -150,10 +150,10 @@ public class ServletGestionProveedor extends HttpServlet {
 				ProveedorDAO prc= new ProveedorDAO();
 				y=prc.elminarProveedor(pr);
 				if (y) {
-					JOptionPane.showMessageDialog(null, "El proveedor fue eliminado");		
+					//JOptionPane.showMessageDialog(null, "El proveedor fue eliminado");		
 					response.sendRedirect("proveedores.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "El proveedor no fue eliminado");
+					//JOptionPane.showMessageDialog(null, "El proveedor no fue eliminado");
 					response.sendRedirect("proveedores.jsp");
 				}
 				

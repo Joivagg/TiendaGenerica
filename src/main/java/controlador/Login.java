@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 
 import modelo.UsuarioDAO;
 import modelo.UsuarioDTO;
@@ -43,7 +43,7 @@ public class Login extends HttpServlet {
 				ms.setAttribute("username", u);
 				if (!usc.consultarCedulaUsuario(u)) {
 					
-					JOptionPane.showMessageDialog(null, "El usuario no está registrado");
+					//JOptionPane.showMessageDialog(null, "El usuario no está registrado");
 					
 				} else {
 				
@@ -53,7 +53,7 @@ public class Login extends HttpServlet {
 				}
 				response.sendRedirect("usuarios.jsp");
 			} else {
-				JOptionPane.showMessageDialog(null, "Datos incorrectos");
+				//JOptionPane.showMessageDialog(null, "Datos incorrectos");
 				response.sendRedirect("index.jsp");
 			}
 		}

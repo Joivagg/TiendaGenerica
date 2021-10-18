@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 
 import modelo.ProductoDAO;
 import modelo.ProductoDTO;
@@ -64,10 +64,10 @@ public class ServletGestionProducto extends HttpServlet {
 				ProductoDAO prc= new ProductoDAO();
 				y=prc.insertarProducto(pr);
 				if(y) {
-					JOptionPane.showMessageDialog(null, "El producto fue registrado");		
+					//JOptionPane.showMessageDialog(null, "El producto fue registrado");		
 					response.sendRedirect("productos.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "El producto no fue registrado");
+					//JOptionPane.showMessageDialog(null, "El producto no fue registrado");
 					response.sendRedirect("productos.jsp");
 				}
 				
@@ -107,10 +107,10 @@ public class ServletGestionProducto extends HttpServlet {
 				ProductoDAO prc= new ProductoDAO();
 				y=prc.modificarProducto(pr);
 				if(y) {
-					JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
+					//JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
 					response.sendRedirect("productos.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
+					//JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
 					response.sendRedirect("productos.jsp");
 				}
 				
@@ -136,7 +136,7 @@ public class ServletGestionProducto extends HttpServlet {
 				
 					if (!prc.verificarProducto(codb)) {
 						
-						JOptionPane.showMessageDialog(null, "El producto no está registrado");
+						//JOptionPane.showMessageDialog(null, "El producto no está registrado");
 						response.sendRedirect("productos.jsp");
 						
 					} else {
@@ -166,10 +166,10 @@ public class ServletGestionProducto extends HttpServlet {
 				ProductoDAO prc= new ProductoDAO();
 				y=prc.eliminarProducto(pr);
 				if (y) {
-					JOptionPane.showMessageDialog(null, "El producto fue eliminado");		
+					//JOptionPane.showMessageDialog(null, "El producto fue eliminado");		
 					response.sendRedirect("productos.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "El producto no fue eliminado");
+					//JOptionPane.showMessageDialog(null, "El producto no fue eliminado");
 					response.sendRedirect("productos.jsp");
 				}
 				

@@ -20,7 +20,6 @@
                     <input type="password" name="pass">
                 </label>
                 <button type="submit" name="btnAceptar">Aceptar</button>
-                <button type="submit" name = "btnCancelar">Cancelar</button>
             </form>
         </fieldset>
     </header>

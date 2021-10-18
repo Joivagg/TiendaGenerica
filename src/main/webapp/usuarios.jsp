@@ -12,6 +12,9 @@
 	<link rel="stylesheet" href="css/Usuarios.css">
 </head>
 <body>
+	<%
+	HttpSession hs = request.getSession();
+	%>
 	<header class="cont-header" id="cont-header">
     	<div class="logo-titulo" id="logo-titulo">
     		<h1 class="h1" id="h1">TIENDA GENERICA</h1>
@@ -19,12 +22,27 @@
         </div>
         <nav class="nav">
             <ul>
+            	<%
+                if((String)hs.getAttribute("username") == null) {
+                %>
+                <li><a href="index.jsp">Usuarios</a></li>
+                <li><a href="index.jsp">Clientes</a></li>
+                <li><a href="index.jsp">Proveedores</a></li>
+                <li><a href="index.jsp">Productos</a></li>
+                <li><a href="index.jsp">Ventas</a></li>
+                <li><a href="index.jsp">Reportes</a></li>
+                <%
+                } else {
+                %>
                 <li><a href="#">Usuarios</a></li>
                 <li><a href="clientes.jsp">Clientes</a></li>
                 <li><a href="proveedores.jsp">Proveedores</a></li>
                 <li><a href="productos.jsp">Productos</a></li>
                 <li><a href="ventas.jsp">Ventas</a></li>
                 <li><a href="reportes.jsp">Reportes</a></li>
+                <%
+                }
+                %>
             </ul>
         </nav>
     </header>

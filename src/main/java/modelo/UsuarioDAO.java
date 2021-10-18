@@ -6,7 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 
 import controlador.Conexion;
 
@@ -143,7 +143,7 @@ public class UsuarioDAO {
 			
 		} catch (SQLException e) {
 			
-			JOptionPane.showMessageDialog(null, e);
+			e.printStackTrace();
 			return false;
 			
 		}

@@ -13,8 +13,7 @@
 </head>
 <body>
 	<%
-	Conexion con= new Conexion();
-	con.conexiondb();
+	HttpSession hs = request.getSession();
 	%>
 	<header class="cont-header" id="cont-header">
         <div class="logo-titulo" id="logo-titulo">
@@ -26,12 +25,27 @@
         </label> -->
         <nav class="nav">
             <ul>
+            	<%
+                if((String)hs.getAttribute("username") == null) {
+                %>
+                <li><a href="index.jsp">Usuarios</a></li>
+                <li><a href="index.jsp">Clientes</a></li>
+                <li><a href="index.jsp">Proveedores</a></li>
+                <li><a href="index.jsp">Productos</a></li>
+                <li><a href="index.jsp">Ventas</a></li>
+                <li><a href="index.jsp">Reportes</a></li>
+                <%
+                } else {
+                %>
                 <li><a href="usuarios.jsp">Usuarios</a></li>
                 <li><a href="clientes.jsp">Clientes</a></li>
                 <li><a href="proveedores.jsp">Proveedores</a></li>
                 <li><a href="#">Productos</a></li>
                 <li><a href="ventas.jsp">Ventas</a></li>
                 <li><a href="reportes.jsp">Reportes</a></li>
+                <%
+                }
+                %>
             </ul>
         </nav>
     </header>
@@ -98,7 +112,7 @@
             </form>
 	        <%
 	        ProductoDAO pro = new ProductoDAO();
-	        if (request.getParameter("cod") == null) {
+	        if (request.getParameter("cod") != null) {
 			%>
             <table class="tabla">
                 <thead>
@@ -116,9 +130,9 @@
 						<td>${producto.getCodigoProducto()}</td>
 						<td>${producto.getNombreProducto()}</td>
 						<td>${producto.getNitProveedor()}</td>
-                        <td>${producto.getPrecioCompra()}</td>
-                        <td>${producto.getIvaCompra()}</td>
-                        <td>${producto.getPrecioVenta()}</td>
+                        <td>$${producto.getPrecioCompra()}</td>
+                        <td>${producto.getIvaCompra()}%</td>
+                        <td>$${producto.getPrecioVenta()}</td>
                     </tr>
                 </tbody>
             </table>

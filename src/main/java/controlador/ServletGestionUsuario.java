@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.JOptionPane;
+//import javax.swing.JOptionPane;
 
 import modelo.UsuarioDTO;
 import modelo.UsuarioDAO;
@@ -63,10 +63,10 @@ public class ServletGestionUsuario extends HttpServlet {
 				UsuarioDAO usc= new UsuarioDAO();
 				y=usc.insertarUsuario(us);
 				if(y) {
-					JOptionPane.showMessageDialog(null, "El usuario fue registrado");		
+					//JOptionPane.showMessageDialog(null, "El usuario fue registrado");		
 					response.sendRedirect("usuarios.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "El usuario no fue registrado");
+					//JOptionPane.showMessageDialog(null, "El usuario no fue registrado");
 					response.sendRedirect("usuarios.jsp");
 				}
 				
@@ -91,10 +91,10 @@ public class ServletGestionUsuario extends HttpServlet {
 				UsuarioDAO usc= new UsuarioDAO();
 				y=usc.modificarUsuario(us);
 				if(y) {
-					JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
+					//JOptionPane.showMessageDialog(null, "Los datos se actualizaron correctamente");		
 					response.sendRedirect("usuarios.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
+					//JOptionPane.showMessageDialog(null, "Los datos no fueron actualizados");
 					response.sendRedirect("usuarios.jsp");
 				}
 				
@@ -120,7 +120,7 @@ public class ServletGestionUsuario extends HttpServlet {
 					
 					if (!usc.verificarUsuario(cc)) {
 						
-						JOptionPane.showMessageDialog(null, "El usuario no está registrado");
+						//JOptionPane.showMessageDialog(null, "El usuario no está registrado");
 						response.sendRedirect("usuarios.jsp");
 						
 					} else {
@@ -150,10 +150,10 @@ public class ServletGestionUsuario extends HttpServlet {
 				UsuarioDAO usc= new UsuarioDAO();
 				y=usc.eliminarUsuario(us);
 				if (y) {
-					JOptionPane.showMessageDialog(null, "El usuario fue eliminado");		
+					//JOptionPane.showMessageDialog(null, "El usuario fue eliminado");		
 					response.sendRedirect("usuarios.jsp");
 				} else {
-					JOptionPane.showMessageDialog(null, "El usuario no fue eliminado ");
+					//JOptionPane.showMessageDialog(null, "El usuario no fue eliminado ");
 					response.sendRedirect("usuarios.jsp");
 				}
 				

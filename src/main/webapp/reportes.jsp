@@ -32,12 +32,27 @@
         </div>
         <nav class="nav">
             <ul>
+            	<%
+                if((String)hs.getAttribute("username") == null) {
+                %>
+                <li><a href="index.jsp">Usuarios</a></li>
+                <li><a href="index.jsp">Clientes</a></li>
+                <li><a href="index.jsp">Proveedores</a></li>
+                <li><a href="index.jsp">Productos</a></li>
+                <li><a href="index.jsp">Ventas</a></li>
+                <li><a href="index.jsp">Reportes</a></li>
+                <%
+                } else {
+                %>
                 <li><a href="usuarios.jsp">Usuarios</a></li>
                 <li><a href="clientes.jsp">Clientes</a></li>
                 <li><a href="proveedores.jsp">Proveedores</a></li>
                 <li><a href="productos.jsp">Productos</a></li>
                 <li><a href="ventas.jsp">Ventas</a></li>
                 <li><a href="#">Reportes</a></li>
+                <%
+                }
+                %>
             </ul>
         </nav>
     </header>
@@ -66,6 +81,7 @@
     			<%
     			} else if(seleccionarRegistro.equals("usuarios")) {
     			%>
+    			<label for="">Reporte Usuarios</label>
     			<table>
 	            	<thead>
 	                	<tr>
@@ -98,6 +114,7 @@
     			<%
     			} else if(seleccionarRegistro.equals("clientes")) {
     	    	%>
+    	    	<label for="">Reporte Clientes</label>
     	    	<table>
 	            	<thead>
 	                	<tr>
@@ -132,6 +149,7 @@
     	    	<%
     			} else if(seleccionarRegistro.equals("proveedores")) {
     			%>
+    			<label for="">Reporte Proveedores</label>
     			<table>
 	            	<thead>
 	                	<tr>
@@ -166,6 +184,7 @@
     			<%
     			} else if(seleccionarRegistro.equals("productos")) {
     			%>
+    			<label for="">Reporte Productos</label>
     			<table>
 	                <thead>
 	                	<tr>
@@ -205,6 +224,7 @@
     			<%
     			} else if(seleccionarRegistro.equals("ventas")) {
     			%>
+    			<label for="">Reporte Ventas</label>
     			<table>
 	               	<thead>
 	                   	<tr>
@@ -247,6 +267,7 @@
     			<%
     			} else if(seleccionarRegistro.equals("reportes")) {
     			%>
+    			<label for="">Reporte Detalles Venta</label>
     			<table>
 					<thead>
 	                   	<tr>

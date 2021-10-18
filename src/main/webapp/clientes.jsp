@@ -13,8 +13,7 @@
 </head>
 <body>
 	<%
-	Conexion con= new Conexion();
-	con.conexiondb();
+	HttpSession hs = request.getSession();
 	%>
 	<header class="cont-header" id="cont-header">
     	<div class="logo-titulo" id="logo-titulo">
@@ -23,12 +22,27 @@
         </div>
         <nav class="nav">
             <ul>
+            	<%
+                if((String)hs.getAttribute("username") == null) {
+                %>
+                <li><a href="index.jsp">Usuarios</a></li>
+                <li><a href="index.jsp">Clientes</a></li>
+                <li><a href="index.jsp">Proveedores</a></li>
+                <li><a href="index.jsp">Productos</a></li>
+                <li><a href="index.jsp">Ventas</a></li>
+                <li><a href="index.jsp">Reportes</a></li>
+                <%
+                } else {
+                %>
                 <li><a href="usuarios.jsp">Usuarios</a></li>
                 <li><a href="#">Clientes</a></li>
                 <li><a href="proveedores.jsp">Proveedores</a></li>
                 <li><a href="productos.jsp">Productos</a></li>
                 <li><a href="ventas.jsp">Ventas</a></li>
                 <li><a href="reportes.jsp">Reportes</a></li>
+                <%
+                }
+                %>
             </ul>
         </nav>
     </header>
@@ -58,19 +72,19 @@
             	} else {
                 %>
                 <label for="">Cédula:
-            		<input type="text" name="cedula" value="<%=request.getParameter("ced")%>" readonly="readonly">
+            		<input type="text" name="cedula" value="${cliente.getCedulaCliente()}" readonly="readonly">
             	</label>
                 <label for="">Nombre Completo: 
-                    <input type="text" name="nombre" value="<%=request.getParameter("nom")%>">
+                    <input type="text" name="nombre" value="${cliente.getNombreCliente()}">
                 </label>
                 <label for="">Dirección: 
-                    <input type="text" name="direccion" value="<%=request.getParameter("dir")%>">
+                    <input type="text" name="direccion" value="${cliente.getDireccionCliente()}">
                 </label>
                 <label for="">Teléfono: 
-                    <input type="text" name="telefono" value="<%=request.getParameter("tel")%>">
+                    <input type="text" name="telefono" value="${cliente.getTelefonoCliente()}">
                 </label>
                 <label for="">Correo Electrónico: 
-                    <input type="email" name="email" value="<%=request.getParameter("ema")%>">
+                    <input type="email" name="email" value="${cliente.getEmailCliente()}">
                 </label>
                 <button type="submit" name="btnModificar">Modificar</button>
                 <button type="submit" name="btnEliminar">Eliminar</button> 
@@ -88,7 +102,7 @@
             </form>
             <%
 	        ClienteDAO clc = new ClienteDAO();
-	        if (request.getParameter("ced") == null) {
+	        if (request.getParameter("ced") != null) {
 			%>
             <table class="tabla">
             	<thead>
@@ -106,7 +120,7 @@
 						<td>${cliente.getNombreCliente()}</td>
 						<td>${cliente.getDireccionCliente()}</td>
                         <td>${cliente.getTelefonoCliente()}</td>
-                        <td>${cliente.getCorreoCliente()}</td>
+                        <td>${cliente.getEmailCliente()}</td>
                     </tr>
                 </tbody>
             </table>

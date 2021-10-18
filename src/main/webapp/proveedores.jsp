@@ -13,8 +13,7 @@
 </head>
 <body>
 	<%
-	Conexion con= new Conexion();
-	con.conexiondb();
+	HttpSession hs = request.getSession();
 	%>
 	<header class="cont-header" id="cont-header">
     	<div class="logo-titulo" id="logo-titulo">
@@ -23,12 +22,27 @@
         </div>
         <nav class="nav">
             <ul>
+            	<%
+                if((String)hs.getAttribute("username") == null) {
+                %>
+                <li><a href="index.jsp">Usuarios</a></li>
+                <li><a href="index.jsp">Clientes</a></li>
+                <li><a href="index.jsp">Proveedores</a></li>
+                <li><a href="index.jsp">Productos</a></li>
+                <li><a href="index.jsp">Ventas</a></li>
+                <li><a href="index.jsp">Reportes</a></li>
+                <%
+                } else {
+                %>
                 <li><a href="usuarios.jsp">Usuarios</a></li>
                 <li><a href="clientes.jsp">Clientes</a></li>
                 <li><a href="#">Proveedores</a></li>
                 <li><a href="productos.jsp">Productos</a></li>
                 <li><a href="ventas.jsp">Ventas</a></li>
                 <li><a href="reportes.jsp">Reportes</a></li>
+                <%
+                }
+                %>
             </ul>
         </nav>
     </header>
@@ -58,19 +72,19 @@
             	} else {
                 %>
                 <label for="">NIT:
-            		<input type="text" name="nit" value="<%=request.getParameter("nit")%>" readonly="readonly">
+            		<input type="text" name="nit" value="${proveedor.getNitProveedor()}" readonly="readonly">
             	</label>
                 <label for="">Nombre Completo: 
-                    <input type="text" name="nombre" value="<%=request.getParameter("nom")%>">
+                    <input type="text" name="nombre" value="${proveedor.getNombreProveedor()}">
                 </label>
                 <label for="">Dirección: 
-                    <input type="text" name="direccion" value="<%=request.getParameter("dir")%>">
+                    <input type="text" name="direccion" value="${proveedor.getDireccionProveedor()}">
                 </label>
                 <label for="">Teléfono: 
-                    <input type="text" name="telefono" value="<%=request.getParameter("tel")%>">
+                    <input type="text" name="telefono" value="${proveedor.getTelefonoProveedor()}">
                 </label>
                 <label for="">Ciudad: 
-                    <input type="text" name="ciudad" value="<%=request.getParameter("ciu")%>">
+                    <input type="text" name="ciudad" value="${proveedor.getCiudadProveedor()}">
                 </label>
                 <button type="submit" name="btnModificar">Modificar</button>
                 <button type="submit" name="btnEliminar">Eliminar</button> 
@@ -88,7 +102,7 @@
             </form>
 	        <%
 	        ProveedorDAO prc = new ProveedorDAO();
-	        if (request.getParameter("nit") == null) {
+	        if (request.getParameter("nit") != null) {
 			%>
             <table class="tabla">
             	<thead>
