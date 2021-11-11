@@ -64,7 +64,7 @@
         		<label for="" class="l1">Usuario:
                 	<input type="text" name="user" value="${username}" readonly="readonly">
                 </label>
-                <label for="" class="l1">Cliente: 
+                <label for="" class="l1">Cliente:  
                 	<input type="text" name="ncliente" value="${cliente.getNombreCliente()}" readonly="readonly">
                 </label>
                 <label for="" class="l1">Código Venta: 
